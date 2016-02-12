@@ -33,6 +33,7 @@ package
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
     import feathers.themes.MetalWorksMobileVectorTheme;
+    import system.JSON;
 
     public class Main extends Application
     {
@@ -41,13 +42,19 @@ package
         private var map:MapExplorer;
         private var slideshow:Slideshow;
 
-        private const pointsOfInterest:Vector.<Dictionary.<String, Object>> = [
-            { 'name': 'The Cooler Restaurant and Bar', 'lat': 44.060184, 'lon': -123.0803059, 'img': "assets/locations/cooler.jpg" },
-            { 'name': 'Sixth Street Grill', 'lat': 44.053405, 'lon': -123.0937108, 'img': "assets/locations/sixthstreetgrill.jpg" },
-            { 'name': 'The Beer Stein', 'lat': 44.0423998, 'lon': -123.0925295, 'img': "assets/locations/beerstein.png" },
-            { 'name': 'Old Nick\'s Pub', 'lat': 44.0574557, 'lon': -123.1001944, 'img': "assets/locations/oldnickspub.jpg" },
-            { 'name': 'The O Bar and Grill', 'lat': 44.0602655, 'lon': -123.056066, 'img': "assets/locations/obar.jpg" },
-        ];
+        private function getData():Vector.<Dictionary.<String, Object>>
+        {
+            var json = JSON.parse(File.loadTextFile("assets/mockdata.json"));
+
+            var data = new Vector.<Dictionary.<String, Object>>();
+
+            for (var i = 0; i < json.length; i++)
+            {
+                data.pushSingle(json.getArrayObject(i).getDictionary());
+            }
+
+            return data;
+        }
 
         override public function run():void
         {
@@ -56,9 +63,11 @@ package
 
             stage.scaleMode = StageScaleMode.LETTERBOX;
 
+            var data = getData();
+
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
-            map.setData(pointsOfInterest);
+            map.setData(data);
             map.goTo(startLocation, 13);
             map.visible = false;
             stage.addChild(map);
@@ -66,7 +75,7 @@ package
             slideshow = new Slideshow();
             slideshow.onLocate += slideshow_onLocate;
             slideshow.onStop += slideshow_onStop;
-            slideshow.setData(pointsOfInterest);
+            slideshow.setData(data);
             slideshow.start();
             stage.addChild(slideshow);
         }
