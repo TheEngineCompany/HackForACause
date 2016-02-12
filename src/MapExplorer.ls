@@ -26,7 +26,7 @@ package
         private var _map:Map;
         private var _flyer:MapFlyer;
         private var _list:List;
-        private var _data:Vector.<Dictionary.<String, Object>>;
+        private var _data:MapData;
         private var _timer:Timer;
 
         public var onIdle:IdleDelegate;
@@ -65,10 +65,10 @@ package
             _list.addEventListener(TouchEvent.TOUCH, touchHandler);
         }
 
-        public function setData(data:Vector.<Dictionary.<String, Object>>)
+        public function setData(data:MapData)
         {
             _data = data;
-            _list.dataProvider = new ListCollection(_data);
+            _list.dataProvider = new ListCollection(_data.locations);
         }
 
         public function goTo(location:Location, zoom:Number)

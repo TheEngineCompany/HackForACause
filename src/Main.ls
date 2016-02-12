@@ -42,18 +42,10 @@ package
         private var map:MapExplorer;
         private var slideshow:Slideshow;
 
-        private function getData():Vector.<Dictionary.<String, Object>>
+        private function getData():MapData
         {
             var json = JSON.parse(File.loadTextFile("assets/mockdata.json"));
-
-            var data = new Vector.<Dictionary.<String, Object>>();
-
-            for (var i = 0; i < json.length; i++)
-            {
-                data.pushSingle(json.getArrayObject(i).getDictionary());
-            }
-
-            return data;
+            return MapData.parse(json);
         }
 
         override public function run():void
