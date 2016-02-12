@@ -36,29 +36,17 @@ package
 
     public class Main extends Application
     {
-        private var _map:Map;
-        private var _flyer:MapFlyer;
+        private const startLocation = new Location(44.052473, -123.100890);
 
-        private const StartLocation = new Location(44.052473, -123.100890);
-
-        private var list:List;
+        private var map:MapExplorer;
+        private var slideshow:Slideshow;
 
         private const pointsOfInterest:Vector.<Dictionary.<String, Object>> = [
-            {'name': 'Test 1', 'lat': 44.052453, 'lon': -123.101880},
-            {'name': 'Test 2', 'lat': 44.052473, 'lon': -123.100890},
-            {'name': 'Test 3', 'lat': 44.042493, 'lon': -123.103890 },
-            {'name': 'Test 1', 'lat': 44.052453, 'lon': -123.101880},
-            {'name': 'Test 2', 'lat': 44.052473, 'lon': -123.100890},
-            {'name': 'Test 3', 'lat': 44.042493, 'lon': -123.103890 },
-            {'name': 'Test 1', 'lat': 44.052453, 'lon': -123.101880},
-            {'name': 'Test 2', 'lat': 44.052473, 'lon': -123.100890},
-            {'name': 'Test 3', 'lat': 44.042493, 'lon': -123.103890 },
-            {'name': 'Test 1', 'lat': 44.052453, 'lon': -123.101880},
-            {'name': 'Test 2', 'lat': 44.052473, 'lon': -123.100890},
-            {'name': 'Test 3', 'lat': 44.042493, 'lon': -123.103890 },
-            {'name': 'Test 1', 'lat': 44.052453, 'lon': -123.101880},
-            {'name': 'Test 2', 'lat': 44.052473, 'lon': -123.100890},
-            {'name': 'Test 3', 'lat': 44.042493, 'lon': -123.103890},
+            { 'name': 'The Cooler Restaurant and Bar', 'lat': 44.060184, 'lon': -123.0803059, 'img': "assets/locations/cooler.jpg" },
+            { 'name': 'Sixth Street Grill', 'lat': 44.053405, 'lon': -123.0937108, 'img': "assets/locations/sixthstreetgrill.jpg" },
+            { 'name': 'The Beer Stein', 'lat': 44.0423998, 'lon': -123.0925295, 'img': "assets/locations/beerstein.png" },
+            { 'name': 'Old Nick\'s Pub', 'lat': 44.0574557, 'lon': -123.1001944, 'img': "assets/locations/oldnickspub.jpg" },
+            { 'name': 'The O Bar and Grill', 'lat': 44.0602655, 'lon': -123.056066, 'img': "assets/locations/obar.jpg" },
         ];
 
         override public function run():void
@@ -67,71 +55,49 @@ package
             new MetalWorksMobileVectorTheme();
 
             stage.scaleMode = StageScaleMode.LETTERBOX;
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 
-            //creat the map with our default provider
-            _map = new Map(stage.stageWidth,
-                                stage.stageHeight,
-                                true,
-                                new MicrosoftRoadMapProvider(true),
-                                stage,
-                                null);
-            _map.setCenter(StartLocation);
-            _map.setZoom( 13);
-            stage.addChild(_map);
+            map = new MapExplorer(stage);
+            map.onIdle += map_onIdle;
+            map.setData(pointsOfInterest);
+            map.goTo(startLocation, 13);
+            map.visible = false;
+            stage.addChild(map);
 
-            _flyer = new MapFlyer(_map);
-
-            list = new List();
-            list.dataProvider = new ListCollection(pointsOfInterest);
-            list.isSelectable = true;
-            list.allowMultipleSelection = false;
-            list.height = stage.stageHeight;
-            list.itemRendererProperties["labelField"] = "name";
-            list.addEventListener(Event.CHANGE, list_changeHandler);
-            list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-
-            stage.addChild(list);
+            slideshow = new Slideshow();
+            slideshow.onLocate += slideshow_onLocate;
+            slideshow.onStop += slideshow_onStop;
+            slideshow.setData(pointsOfInterest);
+            slideshow.start();
+            stage.addChild(slideshow);
         }
 
-        private function list_changeHandler(event:Event):void
+        private function map_onIdle()
         {
-            var dict:Dictionary.<String, Object> = list.selectedItem as Dictionary.<String, Object>;
+            map.visible = false;
 
-            trace("List onChange:", dict["name"]);
-
-            _flyer.flyTo(new Location(Number(dict["lat"]), Number(dict["lon"])));
-
+            slideshow.visible = true;
+            slideshow.start();
+            slideshow.changeImage();
         }
 
-        override public function onTick()
+        private function slideshow_onStop()
         {
-            _flyer.onTick();
+            slideshow.stop();
+            slideshow.visible = false;
+
+            map.visible = true;
+            map.onShown();
         }
 
-        //keyboard handler
-        private function keyDownHandler(event:KeyboardEvent):void
+        private function slideshow_onLocate(item:Dictionary.<String, Object>)
         {
-            var keycode = event.keyCode;
+            slideshow.stop();
+            slideshow.visible = false;
 
-            //always zoom at the center of the screen
-            var zoomPoint:Point = new Point(_map.getWidth() / 2, _map.getHeight() / 2);
-
-            if (keycode == LoomKey.C) trace(_map.getCenter());
-
-            //process zooming
-            if (keycode == LoomKey.EQUALS)
-                _map.zoomByAbout(0.05, zoomPoint);
-            if (keycode == LoomKey.HYPHEN)
-                _map.zoomByAbout( -0.05, zoomPoint);
-
-            var switched = false;
-        }
-
-        //touch handler
-        private function touchHandler(event:TouchEvent):void
-        {
-
+            var loc = new Location(Number(item['lat']), Number(item['lon']));
+            map.flyTo(loc);
+            map.visible = true;
+            map.onShown();
         }
     }
 }

@@ -12,21 +12,11 @@ package
     import loom2d.math.Point;
     import system.platform.File;
     import system.platform.Platform;
+    import loom.gameframework.TimeManager;
+    import loom.gameframework.LoomGroup;
+    import loom.gameframework.ITicked;
 
-    class Volcano {
-        public var number:String;
-        public var name:String;
-        public var country:String;
-        public var region:String;
-        public var latitude:Number;
-        public var longitude:Number;
-        public var elevation:Number;
-        public var type:String;
-        public var status:String;
-        public var lastEruption:String;
-    }
-
-    public class MapFlyer
+    public class MapFlyer implements ITicked
     {
         private var sHelperPoint:Point;
 
@@ -43,9 +33,13 @@ package
         public function MapFlyer(map:Map)
         {
             this.map = map;
+
+            var timeManager:TimeManager = LoomGroup.rootGroup.getManager(TimeManager) as TimeManager;
+            timeManager.addTickedObject(this);
         }
 
         public function flyTo(location:Location) {
+
             flyTarget = location;
             stopped = false;
             flySpeed = 0;
