@@ -22,8 +22,7 @@ package
     {
 
 
-        private var _data:Vector.<Dictionary.<String, Object>>;
-
+        private var _data:MapData;
         private var _currentImage:Image;
         private var _currentItem:Dictionary.<String, Object>;
         private var _locateButton:Button;
@@ -56,7 +55,7 @@ package
             addChild(_locateButton);
         }
 
-        public function setData(data:Vector.<Dictionary.<String, Object>>)
+        public function setData(data:MapData)
         {
             _data = data;
         }
@@ -89,7 +88,7 @@ package
 
         public function changeImage()
         {
-            _currentItem = (Dictionary.<String, Object>)(_data[Math.randomRangeInt(0, _data.length - 1)]);
+            _currentItem = (Dictionary.<String, Object>)(_data.locations[Math.randomRangeInt(0, _data.locations.length - 1)]);
             _currentImage.texture = Texture.fromAsset(String(_currentItem['img']));
             _currentImage.scale = stage.stageHeight / _currentImage.texture.nativeHeight;
             _currentImage.x = stage.nativeStageWidth / 2;

@@ -11,6 +11,7 @@ package
     import loom.modestmaps.mapproviders.OpenStreetMapProvider;
     import loom.modestmaps.mapproviders.BlueMarbleMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
+    import loom.platform.TimerCallback;
     import loom2d.Loom2D;
     import loom2d.text.BitmapFont;
     import loom2d.text.TextField;
@@ -33,21 +34,22 @@ package
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
     import feathers.themes.MetalWorksMobileVectorTheme;
+    import system.JSON;
 
     public class Main extends Application
     {
         private const startLocation = new Location(44.052473, -123.100890);
 
         private var map:MapExplorer;
+        private var data:MapData;
         private var slideshow:Slideshow;
+        private var updateTimer:Timer;
 
-        private const pointsOfInterest:Vector.<Dictionary.<String, Object>> = [
-            { 'name': 'The Cooler Restaurant and Bar', 'lat': 44.060184, 'lon': -123.0803059, 'img': "assets/locations/cooler.jpg" },
-            { 'name': 'Sixth Street Grill', 'lat': 44.053405, 'lon': -123.0937108, 'img': "assets/locations/sixthstreetgrill.jpg" },
-            { 'name': 'The Beer Stein', 'lat': 44.0423998, 'lon': -123.0925295, 'img': "assets/locations/beerstein.png" },
-            { 'name': 'Old Nick\'s Pub', 'lat': 44.0574557, 'lon': -123.1001944, 'img': "assets/locations/oldnickspub.jpg" },
-            { 'name': 'The O Bar and Grill', 'lat': 44.0602655, 'lon': -123.056066, 'img': "assets/locations/obar.jpg" },
-        ];
+        private function getData():MapData
+        {
+            var json = JSON.parse(File.loadTextFile("assets/mockdata.json"));
+            return MapData.parse(json);
+        }
 
         override public function run():void
         {
@@ -58,7 +60,6 @@ package
 
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
-            map.setData(pointsOfInterest);
             map.goTo(startLocation, 13);
             map.visible = false;
             stage.addChild(map);
@@ -66,9 +67,30 @@ package
             slideshow = new Slideshow();
             slideshow.onLocate += slideshow_onLocate;
             slideshow.onStop += slideshow_onStop;
-            slideshow.setData(pointsOfInterest);
+
             slideshow.start();
             stage.addChild(slideshow);
+
+            updateTimer = new Timer(1000  * 60 * 10); // Update once per 10 minutes
+            updateTimer.onComplete += updateTimer_onComplete;
+            updateTimer.start();
+
+            // Inital data update
+            updateData();
+        }
+
+        private function updateTimer_onComplete(timer:Timer)
+        {
+            updateData();
+            updateTimer.reset();
+        }
+
+        private function updateData()
+        {
+            data = getData();
+
+            slideshow.setData(data);
+            map.setData(data);
         }
 
         private function map_onIdle()
