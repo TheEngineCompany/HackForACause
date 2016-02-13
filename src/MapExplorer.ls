@@ -49,7 +49,7 @@ package
             _listCategories.selectedIndex = -1;
             _listAttractions.visible = false;
             _listAttractions.selectedIndex = -1;
-            _detailsView.visible = false;            
+            _detailsView.visible = false;
         }
 
         public function gotoCategories():void
@@ -71,7 +71,7 @@ package
 
             // Draw some useful info.
             _detailsView.graphics.clear();
-            
+
             var tfTitle = new TextFormat(null, 128, 0x0, true);
             tfTitle.align = TextAlign.CENTER;
             _detailsView.graphics.textFormat(tfTitle);
@@ -198,7 +198,7 @@ package
                     var marker:MapMarker = MapMarker(e.target);
                     trace(marker.id);
                     marker.select();
-                    _list.selectedItem = marker.id;
+                    _listAttractions.selectedItem = marker.id;
                 }
             }
 
