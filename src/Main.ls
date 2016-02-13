@@ -11,6 +11,7 @@ package
     import loom.modestmaps.mapproviders.OpenStreetMapProvider;
     import loom.modestmaps.mapproviders.BlueMarbleMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
+    import loom.platform.TimerCallback;
     import loom2d.Loom2D;
     import loom2d.text.BitmapFont;
     import loom2d.text.TextField;
@@ -40,7 +41,9 @@ package
         private const startLocation = new Location(44.052473, -123.100890);
 
         private var map:MapExplorer;
+        private var data:MapData;
         private var slideshow:Slideshow;
+        private var updateTimer:Timer;
 
         private function getData():MapData
         {
@@ -55,11 +58,8 @@ package
 
             stage.scaleMode = StageScaleMode.LETTERBOX;
 
-            var data = getData();
-
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
-            map.setData(data);
             map.goTo(startLocation, 13);
             map.visible = false;
             stage.addChild(map);
@@ -67,9 +67,30 @@ package
             slideshow = new Slideshow();
             slideshow.onLocate += slideshow_onLocate;
             slideshow.onStop += slideshow_onStop;
-            slideshow.setData(data);
+
             slideshow.start();
             stage.addChild(slideshow);
+
+            updateTimer = new Timer(1000  * 60 * 10); // Update once per 10 minutes
+            updateTimer.onComplete += updateTimer_onComplete;
+            updateTimer.start();
+
+            // Inital data update
+            updateData();
+        }
+
+        private function updateTimer_onComplete(timer:Timer)
+        {
+            updateData();
+            updateTimer.reset();
+        }
+
+        private function updateData()
+        {
+            data = getData();
+
+            slideshow.setData(data);
+            map.setData(data);
         }
 
         private function map_onIdle()
