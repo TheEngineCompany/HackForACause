@@ -63,10 +63,10 @@ package
             var currentZoom:Number = map.getZoomFractional();
             var dist = Distance.haversineDistance(currentLocation, flyTarget);
 
-            var minZoom = 2;
-            var maxZoom = 13.5;
+            var minZoom = 2.0;
+            var maxZoom = 19.5;
             var zoomRange = maxZoom-minZoom;
-            var zoomDist = 2e6;
+            var zoomDist = 1e4;
 
             var moveSpeedMax = 10e6;
 
