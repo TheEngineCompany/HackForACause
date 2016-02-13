@@ -68,7 +68,7 @@ package
 
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
-            map.goTo(startLocation, 13);
+            map.gotoLocation(startLocation, 13);
             map.visible = false;
             stage.addChild(map);
 

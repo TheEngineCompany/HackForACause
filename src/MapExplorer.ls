@@ -39,30 +39,30 @@ package
 
         public var onIdle:IdleDelegate;
 
-        public function gotoCategories():void
+        public function resetViews():void
         {
-            _listCategories.visible = true;
+            _listCategories.visible = false;
             _listCategories.selectedIndex = -1;
             _listAttractions.visible = false;
             _listAttractions.selectedIndex = -1;
-            _detailsView.visible = false;
+            _detailsView.visible = false;            
+        }
+
+        public function gotoCategories():void
+        {
+            resetViews();
+            _listCategories.visible = true;
         }
 
         public function gotoAttractions():void
         {
-            _listCategories.visible = false;
-            _listCategories.selectedIndex = -1;
+            resetViews();
             _listAttractions.visible = true;
-            _listAttractions.selectedIndex = -1;
-            _detailsView.visible = false;
         }
 
         public function gotoDetails(dict:Dictionary.<String, Object>):void
         {
-            _listCategories.visible = false;
-            _listCategories.selectedIndex = -1;
-            _listAttractions.visible = false;
-            _listAttractions.selectedIndex = -1;
+            resetViews();
             _detailsView.visible = true;
 
             // Draw some useful info.
@@ -139,7 +139,7 @@ package
             _listCategories.dataProvider = new ListCollection(_data.categories);
         }
 
-        public function goTo(location:Location, zoom:Number)
+        public function gotoLocation(location:Location, zoom:Number)
         {
             _map.setCenter(location);
             _map.setZoom(zoom);
@@ -179,7 +179,7 @@ package
             if (t)
                 return;
 
-            if(Platform.getTime() - _detailsTriggerTime > 3000 && _detailsTriggerTime == _detailsTriggerTime)
+            if(Platform.getTime() - _detailsTriggerTime > 3000 && !isNaN(_detailsTriggerTime))
             {
                 _detailsTriggerTime = NaN;
                 gotoCategories();
