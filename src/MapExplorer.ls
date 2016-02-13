@@ -21,8 +21,6 @@ package
 
     public class MapExplorer extends DisplayObjectContainer
     {
-
-
         private var _map:Map;
         private var _flyer:MapFlyer;
         private var _list:List;
@@ -52,7 +50,7 @@ package
             _list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
             addChild(_list);
 
-            _timer = new Timer(10000);
+            _timer = new Timer(5 * 60 * 1000); // 5 minute timeout
             _timer.onComplete += function()
             {
                 if (this.visible)
