@@ -26,7 +26,6 @@ package
     import loom2d.events.TouchPhase;
     import loom2d.math.Point;
     import loom2d.textures.Texture;
-    import loom2d.display.AsyncImage;
 
     delegate IdleDelegate():void;
 
@@ -37,10 +36,9 @@ package
         private var _flyer:MapFlyer;
         private var _listAttractions:List;
         private var _listCategories:List;
-        private var _detailsView:Shape;
+        private var _detailsView:DetailsView;
         private var _data:MapData;
         private var _timer:Timer;
-        private var _QRImage:AsyncImage;
         private var _kioskLocation:Location;
         private var _kiosk:KioskMarker;
 
@@ -55,11 +53,6 @@ package
             _listAttractions.visible = false;
             _listAttractions.selectedIndex = -1;
             _detailsView.visible = false;
-            if(_QRImage != null) {
-                _map.removeChild(_QRImage);
-                _QRImage.dispose();
-                _QRImage = null;
-            }
         }
 
         public function gotoCategories():void
@@ -96,8 +89,10 @@ package
             resetViews();
             _detailsView.visible = true;
 
+            _detailsView.setData(dict);
+
             // Draw some useful info.
-            _detailsView.graphics.clear();
+            /*_detailsView.graphics.clear();
 
             var tfTitle = new TextFormat(null, 128, 0x0, true);
             tfTitle.align = TextAlign.CENTER;
@@ -107,14 +102,9 @@ package
             var tfDetails = new TextFormat(null, 32, 0x0, true);
             tfDetails.align = TextAlign.CENTER;
             _detailsView.graphics.textFormat(tfDetails);
-            _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 + 150, dict["details"] as String);
+            _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 + 150, dict["details"] as String);*/
 
             _detailsTriggerTime = Platform.getTime();
-
-            _QRImage = QRMaker.generateFromLocation(dict["lat"] as String,dict["lon"] as String,256);
-            _QRImage.x = _map.getWidth()    - 128;
-            _QRImage.y = _map.getHeight()    - 128;
-            _map.addChild(_QRImage);
         }
 
         public function MapExplorer(stage:Stage)
@@ -148,7 +138,7 @@ package
             _listCategories.layoutData = new AnchorLayoutData(0, 0, 0, 0);
             addChild(_listCategories);
 
-            _detailsView = new Shape();
+            _detailsView = new DetailsView();
             addChild(_detailsView);
 
             _timer = new Timer(5 * 60 * 1000); // 5 minute timeout

@@ -3,10 +3,6 @@ package
     import loom2d.display.Image;
     import loom2d.textures.Texture;
 
-    /**
-     * ...
-     * @author Tadej
-     */
     public class MapMarker extends Image
     {
         private static var _pinNormal:Texture = null;
