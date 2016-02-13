@@ -71,7 +71,7 @@ package
             for each(var item:Dictionary.<String, Object> in _data.locations)
             {
                 var catId = item["catid"] as Number;
-                if (catId == categoryId)
+                if (catId == categoryId || categoryId == -1)
                 {
                     attractions.pushSingle(item);
                 }
