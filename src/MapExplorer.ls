@@ -50,7 +50,7 @@ package
             _list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
             addChild(_list);
 
-            _timer = new Timer(10000);
+            _timer = new Timer(5 * 60 * 1000); // 5 minute timeout
             _timer.onComplete += function()
             {
                 if (this.visible)
