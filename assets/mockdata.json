@@ -1,34 +1,56 @@
 {
+    "categories": [
+        {
+            "name": "Food & Beverage"
+        },
+        {
+            "name": "Retail"
+        },
+        {
+            "name": "Hair, Beauty & Fitness"
+        },
+        {
+            "name": "Entertainment"
+        },
+        {
+            "name": "Community"
+        }
+    ],
     "locations": [
         {
             "name": "The Cooler Restaurant and Bar",
             "lat": 44.060184,
             "lon": -123.0803059,
-            "img": "assets/locations/cooler.jpg"
+            "img": "assets/locations/cooler.jpg",
+            "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream."
         },
         {
             "name": "Sixth Street Grill",
             "lat": 44.053405,
             "lon": -123.0937108,
-            "img": "assets/locations/sixthstreetgrill.jpg"
+            "img": "assets/locations/sixthstreetgrill.jpg",
+            "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream."
         },
         {
             "name": "The Beer Stein",
             "lat": 44.0423998,
             "lon": -123.0925295,
-            "img": "assets/locations/beerstein.png"
+            "img": "assets/locations/beerstein.png",
+            "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream."
         },
         {
             "name": "Old Nick's Pub",
             "lat": 44.0574557,
             "lon": -123.1001944,
-            "img": "assets/locations/oldnickspub.jpg"
+            "img": "assets/locations/oldnickspub.jpg",
+            "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream."
         },
         {
             "name": "The O Bar and Grill",
             "lat": 44.0602655,
             "lon": -123.056066,
-            "img": "assets/locations/obar.jpg"
+            "img": "assets/locations/obar.jpg",
+            "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream."
         }
     ]
 }
