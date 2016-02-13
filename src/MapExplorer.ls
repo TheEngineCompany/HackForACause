@@ -218,9 +218,10 @@ package
         {
             _map.removeAllMarkers();
 
-            for (var i:uint = 0; i < _data.length; i++)
+            for (var i:uint = 0; i < _data.locations.length; i++)
             {
-                var loc:Location = new Location(Number(_data[i]['lat']), Number(_data[i]['lon']));
+                var _currentItem:Dictionary.<String, Object> = (Dictionary.<String, Object>)(_data.locations[i]);
+                var loc:Location = new Location(Number(_currentItem['lat']), Number(_currentItem['lon']));
                 var marker:MapMarker = new MapMarker();
                 marker.scale = .25;
                 _map.putMarker(loc, marker);
