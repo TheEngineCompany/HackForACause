@@ -1,0 +1,15 @@
+<h1>{{category.category_name}}</h1>
+
+<ul>
+{% for location in category.location_set.all %}
+    <li>{{ location.location_name }}</li>
+    <ul>
+        <li>{{ location.lon }}</li>
+        <li>{{ location.lat }}</li>
+        <li>{{ location.details }}</li>
+        <li>{{ location.state }}</li>
+        <li>{{ location.image }}</li>
+    </ul>
+{% endfor %}
+
+</ul>
