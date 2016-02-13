@@ -1,24 +1,30 @@
 {
     "categories": [
         {
+            "id": 1,
             "name": "Food & Beverage"
         },
         {
+            "id": 2,
             "name": "Retail"
         },
         {
+            "id": 3,
             "name": "Hair, Beauty & Fitness"
         },
         {
+            "id": 4,
             "name": "Entertainment"
         },
         {
+            "id": 5,
             "name": "Community"
         }
     ],
     "locations": [
         {
             "name": "The Cooler Restaurant and Bar",
+            "catid": 1,
             "lat": 44.060184,
             "lon": -123.0803059,
             "img": "assets/locations/cooler.jpg",
@@ -26,6 +32,7 @@
         },
         {
             "name": "Sixth Street Grill",
+            "catid": 1,
             "lat": 44.053405,
             "lon": -123.0937108,
             "img": "assets/locations/sixthstreetgrill.jpg",
@@ -33,6 +40,7 @@
         },
         {
             "name": "The Beer Stein",
+            "catid": 1,
             "lat": 44.0423998,
             "lon": -123.0925295,
             "img": "assets/locations/beerstein.png",
@@ -40,6 +48,7 @@
         },
         {
             "name": "Old Nick's Pub",
+            "catid": 4,
             "lat": 44.0574557,
             "lon": -123.1001944,
             "img": "assets/locations/oldnickspub.jpg",
@@ -47,6 +56,7 @@
         },
         {
             "name": "The O Bar and Grill",
+            "catid": 5,
             "lat": 44.0602655,
             "lon": -123.056066,
             "img": "assets/locations/obar.jpg",
