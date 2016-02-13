@@ -42,7 +42,7 @@ package
 
     public class Main extends Application
     {
-        private const startLocation = new Location(44.052473, -123.100890);
+        public static const startLocation = new Location(44.052473, -123.100890);
 
         private var map:MapExplorer;
         private var data:MapData;
