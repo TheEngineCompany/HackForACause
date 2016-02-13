@@ -1,0 +1,13 @@
+{% if category_list %}
+    <ul>
+    {% for category in category_list %}
+        <li><a href = "/dwtn/{{ category.id }}/">{{category.category_name}}</a></li>
+    {% endfor %}
+    </ul>
+
+<a href = "/dwtn/make_json/">Click to generate JSON</a>
+
+{% else %}
+    <p> No categories at this time. </p>
+{% endif %}
+
