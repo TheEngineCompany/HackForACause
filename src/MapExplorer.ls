@@ -2,6 +2,7 @@ package
 {
     import feathers.controls.List;
     import feathers.data.ListCollection;
+    import feathers.data.VectorListCollectionDataDescriptor;
     import feathers.layout.AnchorLayoutData;
     import loom.modestmaps.geo.Location;
     import loom.modestmaps.overlays.ImageMarker;
@@ -62,9 +63,26 @@ package
             _listCategories.visible = true;
         }
 
-        public function gotoAttractions():void
+        public function gotoAttractions(categoryId:Number):void
         {
             resetViews();
+
+            var attractions = new Vector.<Dictionary.<String, Object>>();
+            for each(var item:Dictionary.<String, Object> in _data.locations)
+            {
+                var catId = item["catid"] as Number;
+                if (catId == categoryId)
+                {
+                    attractions.pushSingle(item);
+                }
+            }
+
+            var back = new Dictionary.<String, Object>();
+            back["name"] = " < Back";
+
+            attractions.pushSingle(back);
+
+            _listAttractions.dataProvider = new ListCollection(attractions);
             _listAttractions.visible = true;
         }
 
@@ -87,7 +105,7 @@ package
             _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 + 150, dict["details"] as String);
 
             _detailsTriggerTime = Platform.getTime();
-            
+
             _QRImage = QRMaker.generateFromLocation(dict["lat"] as String,dict["lon"] as String,256);
             _QRImage.x = _map.getWidth()    - 128;
             _QRImage.y = _map.getHeight()    - 128;
@@ -228,16 +246,24 @@ package
             var dict:Dictionary.<String, Object> = _listAttractions.selectedItem as Dictionary.<String, Object>;
             if(!dict)
                 return;
-            selectLocation(dict);
+
+            if (dict["lon"] == null)
+            {
+                gotoCategories();
+            }
+            else
+            {
+                selectLocation(dict);
+            }
         }
 
         private function listCategory_changeHandler(event:Event):void
         {
-            var dict:Dictionary.<String, Object> = _listCategories.selectedItem as Dictionary.<String, Object>;
-            if(!dict)
+            var category:Dictionary.<String, Object> = _listCategories.selectedItem as Dictionary.<String, Object>;
+            if(!category)
                 return;
-            trace("Category selected: " + dict['name']);
-            gotoAttractions();
+            var categoryId = Number(category["id"]);
+            gotoAttractions(categoryId);
             _timer.reset();
         }
 
@@ -256,8 +282,8 @@ package
             _kioskLocation = new Location(44.0493197,-123.0919375);
             _kiosk.scale = .75;
             _map.putMarker(_kioskLocation, _kiosk);
-            
-            
+
+
             for (var i:uint = 0; i < _data.locations.length; i++)
             {
                 var _currentItem:Dictionary.<String, Object> = _data.locations[i] as Dictionary.<String, Object>;
