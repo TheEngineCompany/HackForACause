@@ -42,7 +42,7 @@ package
 
     public class Main extends Application
     {
-        public static const startLocation = new Location(44.052473, -123.100890);
+        public static const startLocation = new Location(44.04935,-123.09195);
 
         private var map:MapExplorer;
         private var data:MapData;
@@ -68,7 +68,7 @@ package
 
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
-            map.gotoLocation(startLocation, 13);
+            map.gotoLocation(startLocation, 17);
             map.visible = false;
             stage.addChild(map);
 

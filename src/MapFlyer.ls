@@ -40,12 +40,10 @@ package
             map.addEventListener(TouchEvent.TOUCH, function(e:TouchEvent)
             {
                 var touch = e.getTouch(e.target as DisplayObject, TouchPhase.BEGAN);
-                trace(touch);
                 if (touch) {
                     stopped = true;
                 }
                 touch = e.getTouch(e.target as DisplayObject, TouchPhase.ENDED);
-                trace(touch);
                 if (touch) {
                     checkBounds();
                 }
@@ -60,6 +58,16 @@ package
             flyTarget = location;
             stopped = false;
             flySpeed = 0;
+        }
+
+        public function get isFlying():Boolean
+        {
+            return !stopped;
+        }
+
+        public function stop()
+        {
+            stopped = true;
         }
 
         public function checkBounds():void
@@ -104,8 +112,8 @@ package
             var currentZoom:Number = map.getZoomFractional();
             var dist = Distance.haversineDistance(currentLocation, flyTarget);
 
-            var minZoom = 2.0;
-            var maxZoom = 19.5;
+            var minZoom = map.getMapProvider().outerLimits()[0].zoom;
+            var maxZoom = map.getMapProvider().outerLimits()[1].zoom;
             var zoomRange = maxZoom-minZoom;
             var zoomDist = 1e4;
 
