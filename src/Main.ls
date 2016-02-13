@@ -1,6 +1,10 @@
 package
 {
-    import feathers.data.VectorListCollectionDataDescriptor;
+    import system.JSON;
+    import system.debugger.ObjectInspector;
+    import system.platform.File;
+    import system.platform.Platform;
+
     import loom.Application;
     import loom.modestmaps.geo.Location;
     import loom.modestmaps.Map;
@@ -12,29 +16,28 @@ package
     import loom.modestmaps.mapproviders.BlueMarbleMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.TimerCallback;
-    import loom2d.Loom2D;
-    import loom2d.text.BitmapFont;
-    import loom2d.text.TextField;
-    import system.debugger.ObjectInspector;
-    import system.platform.File;
-
     import loom.platform.LoomKey;
     import loom.platform.Timer;
+
     import loom2d.display.Image;
     import loom2d.display.StageScaleMode;
     import loom2d.events.*;
     import loom2d.math.Point;
     import loom2d.textures.Texture;
+    import loom2d.Loom2D;
+    import loom2d.text.BitmapFont;
+    import loom2d.text.TextField;
 
     import feathers.controls.List;
     import feathers.controls.Button;
     import feathers.controls.renderers.DefaultListItemRenderer;
     import feathers.controls.renderers.IListItemRenderer;
     import feathers.data.ListCollection;
+    import feathers.data.VectorListCollectionDataDescriptor;
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
     import feathers.themes.MetalWorksMobileVectorTheme;
-    import system.JSON;
+    import feathers.system.DeviceCapabilities;
 
     public class Main extends Application
     {
@@ -54,6 +57,7 @@ package
         override public function run():void
         {
             TextField.registerBitmapFont( BitmapFont.load( "assets/arialComplete.fnt" ), "SourceSansPro" );
+            DeviceCapabilities.dpi = 300;
             new MetalWorksMobileVectorTheme();
 
             stage.scaleMode = StageScaleMode.LETTERBOX;
@@ -71,7 +75,7 @@ package
             slideshow.start();
             stage.addChild(slideshow);
 
-            updateTimer = new Timer(1000  * 60 * 10); // Update once per 10 minutes
+            updateTimer = new Timer(1000  * 30); // Update once per 30 seconds
             updateTimer.onComplete += updateTimer_onComplete;
             updateTimer.start();
 
