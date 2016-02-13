@@ -149,8 +149,8 @@ package
             };
             _timer.start();
 
-            stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
-            stage.addEventListener(TouchEvent.TOUCH, touchHandler);
+            _map.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+            _map.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listAttractions.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listCategories.addEventListener(TouchEvent.TOUCH, touchHandler);
 
@@ -190,6 +190,7 @@ package
             var zoomPoint:Point = new Point(_map.getWidth() / 2, _map.getHeight() / 2);
 
             if (keycode == LoomKey.C) trace(_map.getCenter());
+            if (keycode == LoomKey.V) trace(_map.getZoom());
 
             // precise zooming
             if (keycode == LoomKey.EQUALS)
@@ -198,6 +199,7 @@ package
                 _map.zoomByAbout( -0.05, zoomPoint);
 
             _timer.reset();
+            _flyer.stop();
         }
 
         private function touchHandler(e:TouchEvent):void
@@ -221,6 +223,14 @@ package
                     var dict:Dictionary.<String, Object> = _data.locations[marker.id] as Dictionary.<String, Object>;
                     if (dict)
                         selectLocation(dict);
+                }
+            }
+            else
+            {
+                if (_flyer.isFlying)
+                {
+                    _flyer.stop();
+                    gotoCategories();
                 }
             }
 
