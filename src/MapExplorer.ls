@@ -59,6 +59,7 @@ package
         {
             resetViews();
             _listCategories.visible = true;
+            _flyer.flyTo(Main.startLocation, true);
         }
 
         public function gotoAttractions(categoryId:Number):void
