@@ -33,6 +33,7 @@ package
         private var flySpeed:Number;
         private var nextLocation = new Location(0, 0);
         private var stopped:Boolean = true;
+        private var goingHome:Boolean = false;
 
         public function MapFlyer(map:Map)
         {
@@ -53,8 +54,8 @@ package
             timeManager.addTickedObject(this);
         }
 
-        public function flyTo(location:Location) {
-
+        public function flyTo(location:Location, home:Boolean = false) {
+            goingHome = home;
             flyTarget = location;
             stopped = false;
             flySpeed = 0;
@@ -120,6 +121,8 @@ package
             var moveSpeedMax = 10e6;
 
             var targetZoom = minZoom+(maxZoom-minZoom)*(1-Math.sqrt(Math.min2(1, dist/zoomDist)));
+            if(goingHome)
+                targetZoom = 17;
 
             var zoomDiff = targetZoom - currentZoom;
 
