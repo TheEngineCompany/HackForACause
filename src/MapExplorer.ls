@@ -54,6 +54,11 @@ package
             _listAttractions.visible = false;
             _listAttractions.selectedIndex = -1;
             _detailsView.visible = false;
+            if(_QRImage != null) {
+                _map.removeChild(_QRImage);
+                _QRImage.dispose();
+                _QRImage = null;
+            }
         }
 
         public function gotoCategories():void
