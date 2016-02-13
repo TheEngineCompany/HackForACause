@@ -20,6 +20,3 @@ class Location(models.Model):
 
     def __str__(self):
         return '%s' % self.location_name
-    
-        
-    
