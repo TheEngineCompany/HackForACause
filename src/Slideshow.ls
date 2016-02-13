@@ -31,6 +31,11 @@ package
         public var onLocate:LocateDelegate;
         public var onStop:StopDelegate;
 
+        public var delta_x = 0;
+        public var delta_y = 0;
+        public var tardelta_x = 0;
+        public var tardelta_y = 0;
+
         public function Slideshow()
         {
             var timeManager:TimeManager = LoomGroup.rootGroup.getManager(TimeManager) as TimeManager;
@@ -39,8 +44,8 @@ package
             _timer = new Timer(5000);
             _timer.onComplete = function()
             {
-                changeImage();
                 _timer.reset();
+                changeImage();
             };
 
             _currentImage = new Image();
@@ -86,16 +91,36 @@ package
 
                 changeImage();
             }
+
+            animateImage();
+        }
+
+        public function animateImage()
+        {
+            var timeScaleX = tardelta_x * (delta_x * _timer.elapsed / _timer.delay);
+            var timeScaleY = tardelta_y * (delta_y * _timer.elapsed / _timer.delay);
+            _currentImage.x = stage.stageWidth / 2 + stage.stageWidth * 0.1 * timeScaleX;
+            _currentImage.y = stage.stageHeight / 2 + stage.stageHeight * 0.1 * timeScaleY;
         }
 
         public function changeImage()
         {
             _currentItem = (Dictionary.<String, Object>)(_data.locations[Math.randomRangeInt(0, _data.locations.length - 1)]);
             _currentImage.texture = Texture.fromAsset(String(_currentItem['img']));
-            _currentImage.scale = stage.stageHeight / _currentImage.texture.nativeHeight;
-            _currentImage.x = stage.stageWidth / 2;
-            _currentImage.y = stage.stageHeight / 2;
+            var y = stage.stageHeight / _currentImage.texture.nativeHeight;
+            var x = stage.stageWidth / _currentImage.texture.nativeWidth;
+            if(x > y)
+                _currentImage.scale = x * 1.2;
+            else
+                _currentImage.scale = y * 1.2;
+
+            delta_x = Math.random() * 2 - 1;
+            delta_y = Math.random() * 2 - 1;
+            tardelta_x = Math.random() * 2 - 1;
+            tardelta_y = Math.random() * 2 - 1;
+
             _currentImage.center();
+            animateImage();
         }
 
         private function locateButton_handler()
