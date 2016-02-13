@@ -13,10 +13,13 @@ package
         private static var _pinSelected:Texture = null;
 
         private var selected:Boolean = false;
+        private var _id:int;
 
-        public function MapMarker()
+        public function MapMarker(id:int = -1)
         {
             super();
+
+            _id = id;
 
             if (_pinNormal == null) {
                 _pinNormal = Texture.fromAsset("assets/pin.png");
@@ -49,6 +52,11 @@ package
                 this.texture = _pinSelected;
             else
                 this.texture = _pinNormal;
+        }
+
+        public function get id():int
+        {
+            return _id;
         }
     }
 

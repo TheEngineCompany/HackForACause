@@ -190,6 +190,18 @@ package
                 gotoCategories();
             }
 
+            t = e.getTouch(stage, TouchPhase.ENDED);
+            if (t)
+            {
+                if (e.target.getType() == MapMarker)
+                {
+                    var marker:MapMarker = MapMarker(e.target);
+                    trace(marker.id);
+                    marker.select();
+                    _list.selectedItem = marker.id;
+                }
+            }
+
             _timer.reset();
         }
 
@@ -222,8 +234,8 @@ package
             {
                 var _currentItem:Dictionary.<String, Object> = (Dictionary.<String, Object>)(_data.locations[i]);
                 var loc:Location = new Location(Number(_currentItem['lat']), Number(_currentItem['lon']));
-                var marker:MapMarker = new MapMarker();
-                marker.scale = .25;
+                var marker:MapMarker = new MapMarker(i);
+                marker.scale = .50;
                 _map.putMarker(loc, marker);
             }
         }
