@@ -76,12 +76,12 @@ package
             if (_currentItem == null)
             {
                 var centerX = stage.stageWidth * 0.5;
-                var centerY = stage.stageHeight * 0.9;
+                var centerY = stage.stageHeight * 0.85;
 
                 _locateButton.x = centerX;
                 _locateButton.y = centerY;
-                _locateButton.scaleX = 4;
-                _locateButton.scaleY = 4;
+                _locateButton.scaleX = 2;
+                _locateButton.scaleY = 2;
                 _locateButton.center();
 
                 changeImage();
