@@ -8,6 +8,7 @@ package
     import loom.Application;
     import loom.modestmaps.geo.Location;
     import loom.modestmaps.Map;
+    import loom.modestmaps.core.TileGrid;
     import loom.modestmaps.mapproviders.AbstractMapProvider;
     import loom.modestmaps.mapproviders.IMapProvider;
     import loom.modestmaps.mapproviders.MapboxProvider;
@@ -19,12 +20,12 @@ package
     import loom.platform.LoomKey;
     import loom.platform.Timer;
 
+    import loom2d.Loom2D;
     import loom2d.display.Image;
     import loom2d.display.StageScaleMode;
     import loom2d.events.*;
     import loom2d.math.Point;
     import loom2d.textures.Texture;
-    import loom2d.Loom2D;
     import loom2d.text.BitmapFont;
     import loom2d.text.TextField;
 
