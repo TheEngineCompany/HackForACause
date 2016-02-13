@@ -20,7 +20,7 @@ package
     {
         private var sHelperPoint:Point;
 
-        private var dt:Number = 1/60;
+        private var lastTime:Number;
 
         private var map:Map;
 
@@ -49,6 +49,15 @@ package
         {
             if (stopped)
                 return;
+
+            var curTime = Platform.getTime();
+            var dt = Number(curTime - lastTime) / Number(1000);
+
+            // Sanity for delta time.
+            if(dt > 0.25) dt = 0.1;
+            if(dt < 0.01) return;
+
+            lastTime = curTime;
 
             var currentLocation:Location = map.getCenter();
             var currentZoom:Number = map.getZoomFractional();
