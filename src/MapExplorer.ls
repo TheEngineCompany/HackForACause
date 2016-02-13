@@ -21,8 +21,6 @@ package
 
     public class MapExplorer extends DisplayObjectContainer
     {
-
-
         private var _map:Map;
         private var _flyer:MapFlyer;
         private var _list:List;
