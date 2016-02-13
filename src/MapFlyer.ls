@@ -45,6 +45,16 @@ package
             flySpeed = 0;
         }
 
+        public function get isFlying():Boolean
+        {
+            return !stopped;
+        }
+
+        public function stop()
+        {
+            stopped = true;
+        }
+
         public function onTick()
         {
             if (stopped)
@@ -63,8 +73,8 @@ package
             var currentZoom:Number = map.getZoomFractional();
             var dist = Distance.haversineDistance(currentLocation, flyTarget);
 
-            var minZoom = 2.0;
-            var maxZoom = 19.5;
+            var minZoom = map.getMapProvider().outerLimits()[0].zoom;
+            var maxZoom = map.getMapProvider().outerLimits()[1].zoom;;
             var zoomRange = maxZoom-minZoom;
             var zoomDist = 1e4;
 
