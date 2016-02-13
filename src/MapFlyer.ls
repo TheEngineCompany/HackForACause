@@ -5,10 +5,14 @@ package
     import loom.modestmaps.Map;
     import loom.modestmaps.mapproviders.IMapProvider;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
+    import loom2d.display.DisplayObject;
     import loom2d.display.Graphics;
     import loom2d.display.Shape;
     import loom2d.display.TextAlign;
     import loom2d.display.TextFormat;
+    import loom2d.events.TouchEvent;
+    import loom2d.events.TouchPhase;
+    import loom2d.events.Touch;
     import loom2d.math.Point;
     import system.platform.File;
     import system.platform.Platform;
@@ -33,6 +37,19 @@ package
         public function MapFlyer(map:Map)
         {
             this.map = map;
+            map.addEventListener(TouchEvent.TOUCH, function(e:TouchEvent)
+            {
+                var touch = e.getTouch(e.target as DisplayObject, TouchPhase.BEGAN);
+                trace(touch);
+                if (touch) {
+                    stopped = true;
+                }
+                touch = e.getTouch(e.target as DisplayObject, TouchPhase.ENDED);
+                trace(touch);
+                if (touch) {
+                    checkBounds();
+                }
+            });
 
             var timeManager:TimeManager = LoomGroup.rootGroup.getManager(TimeManager) as TimeManager;
             timeManager.addTickedObject(this);
@@ -45,10 +62,34 @@ package
             flySpeed = 0;
         }
 
+        public function checkBounds():void
+        {
+            var currentLocation:Location = map.getCenter();
+            var currentZoom:Number = map.getZoomFractional();
+
+            if (currentLocation.lat > 44.05320)
+                currentLocation.lat = 44.05320;
+            if (currentLocation.lat < 44.04771)
+                currentLocation.lat = 44.04771;
+
+            if (currentLocation.lon > -123.08974)
+                currentLocation.lon = -123.08974;
+            if (currentLocation.lon < -123.09733)
+                currentLocation.lon = -123.09733;
+
+            if (currentZoom < 17)
+                currentZoom = 17;
+
+            map.setCenterZoom(currentLocation, currentZoom);
+
+        }
+
         public function onTick()
         {
             if (stopped)
+            {
                 return;
+            }
 
             var curTime = Platform.getTime();
             var dt = Number(curTime - lastTime) / Number(1000);

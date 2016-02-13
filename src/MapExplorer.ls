@@ -190,6 +190,7 @@ package
             var zoomPoint:Point = new Point(_map.getWidth() / 2, _map.getHeight() / 2);
 
             if (keycode == LoomKey.C) trace(_map.getCenter());
+            if (keycode == LoomKey.V) trace(_map.getZoom());
 
             // precise zooming
             if (keycode == LoomKey.EQUALS)
