@@ -196,9 +196,9 @@ package
                 if (e.target.getType() == MapMarker)
                 {
                     var marker:MapMarker = MapMarker(e.target);
-                    trace(marker.id);
-                    marker.select();
-                    _listAttractions.selectedItem = marker.id;
+                    var dict:Dictionary.<String, Object> = _data.locations[marker.id] as Dictionary.<String, Object>;
+                    if (dict)
+                        selectLocation(dict);
                 }
             }
 
@@ -210,10 +210,7 @@ package
             var dict:Dictionary.<String, Object> = _listAttractions.selectedItem as Dictionary.<String, Object>;
             if(!dict)
                 return;
-            trace("Attraction selected: " + dict['name']);
-            flyTo(new Location(Number(dict['lat']), Number(dict['lon'])));
-            gotoDetails(dict);
-            _timer.reset();
+            selectLocation(dict);
         }
 
         private function listCategory_changeHandler(event:Event):void
@@ -226,13 +223,21 @@ package
             _timer.reset();
         }
 
+        private function selectLocation(dict:Dictionary.<String, Object>)
+        {
+            trace("Attraction selected: " + dict['name']);
+            flyTo(new Location(Number(dict['lat']), Number(dict['lon'])));
+            gotoDetails(dict);
+            _timer.reset();
+        }
+
         private function updateMarkers():void
         {
             _map.removeAllMarkers();
 
             for (var i:uint = 0; i < _data.locations.length; i++)
             {
-                var _currentItem:Dictionary.<String, Object> = (Dictionary.<String, Object>)(_data.locations[i]);
+                var _currentItem:Dictionary.<String, Object> = _data.locations[i] as Dictionary.<String, Object>;
                 var loc:Location = new Location(Number(_currentItem['lat']), Number(_currentItem['lon']));
                 var marker:MapMarker = new MapMarker(i);
                 marker.scale = .50;
