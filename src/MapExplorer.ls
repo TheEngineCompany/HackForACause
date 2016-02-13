@@ -40,6 +40,8 @@ package
         private var _data:MapData;
         private var _timer:Timer;
         private var _QRImage:AsyncImage;
+		private var _kioskLocation:Location;
+		private var _kiosk:KioskMarker;
 
         private var _detailsTriggerTime:Number = NaN;
 
@@ -241,7 +243,12 @@ package
         private function updateMarkers():void
         {
             _map.removeAllMarkers();
-
+			_kiosk = new KioskMarker();
+			_kioskLocation = new Location(44.0493197,-123.0919375);
+			_kiosk.scale = .75;
+			_map.putMarker(_kioskLocation, _kiosk);
+			
+            
             for (var i:uint = 0; i < _data.locations.length; i++)
             {
                 var _currentItem:Dictionary.<String, Object> = _data.locations[i] as Dictionary.<String, Object>;
