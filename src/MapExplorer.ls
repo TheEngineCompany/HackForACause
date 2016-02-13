@@ -4,7 +4,10 @@ package
     import feathers.data.ListCollection;
     import feathers.layout.AnchorLayoutData;
     import loom.modestmaps.geo.Location;
+    import loom.modestmaps.overlays.ImageMarker;
+    import loom.modestmaps.overlays.MarkerClip;
     import loom.modestmaps.Map;
+    import loom2d.display.Image;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
@@ -27,6 +30,7 @@ package
 
     public class MapExplorer extends DisplayObjectContainer
     {
+
         private var _map:Map;
         private var _flyer:MapFlyer;
         private var _listAttractions:List;
@@ -137,6 +141,7 @@ package
             _data = data;
             _listAttractions.dataProvider = new ListCollection(_data.locations);
             _listCategories.dataProvider = new ListCollection(_data.categories);
+            updateMarkers();
         }
 
         public function gotoLocation(location:Location, zoom:Number)
@@ -207,6 +212,19 @@ package
             trace("Category selected: " + dict['name']);
             gotoAttractions();
             _timer.reset();
+        }
+
+        private function updateMarkers():void
+        {
+            _map.removeAllMarkers();
+
+            for (var i:uint = 0; i < _data.length; i++)
+            {
+                var loc:Location = new Location(Number(_data[i]['lat']), Number(_data[i]['lon']));
+                var marker:MapMarker = new MapMarker();
+                marker.scale = .25;
+                _map.putMarker(loc, marker);
+            }
         }
     }
 }
