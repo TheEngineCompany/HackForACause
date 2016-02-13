@@ -4,7 +4,10 @@ package
     import feathers.data.ListCollection;
     import feathers.layout.AnchorLayoutData;
     import loom.modestmaps.geo.Location;
+    import loom.modestmaps.overlays.ImageMarker;
+    import loom.modestmaps.overlays.MarkerClip;
     import loom.modestmaps.Map;
+    import loom2d.display.Image;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
@@ -27,6 +30,7 @@ package
 
     public class MapExplorer extends DisplayObjectContainer
     {
+
         private var _map:Map;
         private var _flyer:MapFlyer;
         private var _listAttractions:List;
@@ -45,7 +49,7 @@ package
             _listCategories.selectedIndex = -1;
             _listAttractions.visible = false;
             _listAttractions.selectedIndex = -1;
-            _detailsView.visible = false;            
+            _detailsView.visible = false;
         }
 
         public function gotoCategories():void
@@ -67,7 +71,7 @@ package
 
             // Draw some useful info.
             _detailsView.graphics.clear();
-            
+
             var tfTitle = new TextFormat(null, 128, 0x0, true);
             tfTitle.align = TextAlign.CENTER;
             _detailsView.graphics.textFormat(tfTitle);
@@ -137,6 +141,7 @@ package
             _data = data;
             _listAttractions.dataProvider = new ListCollection(_data.locations);
             _listCategories.dataProvider = new ListCollection(_data.categories);
+            updateMarkers();
         }
 
         public function gotoLocation(location:Location, zoom:Number)
@@ -185,6 +190,18 @@ package
                 gotoCategories();
             }
 
+            t = e.getTouch(stage, TouchPhase.ENDED);
+            if (t)
+            {
+                if (e.target.getType() == MapMarker)
+                {
+                    var marker:MapMarker = MapMarker(e.target);
+                    var dict:Dictionary.<String, Object> = _data.locations[marker.id] as Dictionary.<String, Object>;
+                    if (dict)
+                        selectLocation(dict);
+                }
+            }
+
             _timer.reset();
         }
 
@@ -193,10 +210,7 @@ package
             var dict:Dictionary.<String, Object> = _listAttractions.selectedItem as Dictionary.<String, Object>;
             if(!dict)
                 return;
-            trace("Attraction selected: " + dict['name']);
-            flyTo(new Location(Number(dict['lat']), Number(dict['lon'])));
-            gotoDetails(dict);
-            _timer.reset();
+            selectLocation(dict);
         }
 
         private function listCategory_changeHandler(event:Event):void
@@ -207,6 +221,28 @@ package
             trace("Category selected: " + dict['name']);
             gotoAttractions();
             _timer.reset();
+        }
+
+        private function selectLocation(dict:Dictionary.<String, Object>)
+        {
+            trace("Attraction selected: " + dict['name']);
+            flyTo(new Location(Number(dict['lat']), Number(dict['lon'])));
+            gotoDetails(dict);
+            _timer.reset();
+        }
+
+        private function updateMarkers():void
+        {
+            _map.removeAllMarkers();
+
+            for (var i:uint = 0; i < _data.locations.length; i++)
+            {
+                var _currentItem:Dictionary.<String, Object> = _data.locations[i] as Dictionary.<String, Object>;
+                var loc:Location = new Location(Number(_currentItem['lat']), Number(_currentItem['lon']));
+                var marker:MapMarker = new MapMarker(i);
+                marker.scale = .50;
+                _map.putMarker(loc, marker);
+            }
         }
     }
 }
