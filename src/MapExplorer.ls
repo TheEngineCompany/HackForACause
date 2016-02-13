@@ -25,6 +25,7 @@ package
     import loom2d.events.TouchPhase;
     import loom2d.math.Point;
     import loom2d.textures.Texture;
+	import loom2d.display.AsyncImage;
 
     delegate IdleDelegate():void;
 
@@ -38,6 +39,7 @@ package
         private var _detailsView:Shape;
         private var _data:MapData;
         private var _timer:Timer;
+		private var _QRImage:AsyncImage;
 
         private var _detailsTriggerTime:Number = NaN;
 
@@ -83,6 +85,11 @@ package
             _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 + 150, dict["details"] as String);
 
             _detailsTriggerTime = Platform.getTime();
+			
+			_QRImage = QRMaker.generateFromLocation(dict["lat"] as String,dict["lon"] as String,256);
+			_QRImage.x = _map.getWidth()	- 128;
+			_QRImage.y = _map.getHeight()	- 128;
+			_map.addChild(_QRImage);
         }
 
         public function MapExplorer(stage:Stage)
