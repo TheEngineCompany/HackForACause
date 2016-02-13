@@ -75,11 +75,13 @@ package
             // Some late initalization here
             if (_currentItem == null)
             {
-                var centerX = stage.nativeStageWidth * 0.5;
-                var centerY = stage.nativeStageHeight * 0.9;
+                var centerX = stage.stageWidth * 0.5;
+                var centerY = stage.stageHeight * 0.9;
 
                 _locateButton.x = centerX;
                 _locateButton.y = centerY;
+                _locateButton.scaleX = 4;
+                _locateButton.scaleY = 4;
                 _locateButton.center();
 
                 changeImage();
@@ -91,8 +93,8 @@ package
             _currentItem = (Dictionary.<String, Object>)(_data.locations[Math.randomRangeInt(0, _data.locations.length - 1)]);
             _currentImage.texture = Texture.fromAsset(String(_currentItem['img']));
             _currentImage.scale = stage.stageHeight / _currentImage.texture.nativeHeight;
-            _currentImage.x = stage.nativeStageWidth / 2;
-            _currentImage.y = stage.nativeStageHeight / 2;
+            _currentImage.x = stage.stageWidth / 2;
+            _currentImage.y = stage.stageHeight / 2;
             _currentImage.center();
         }
 

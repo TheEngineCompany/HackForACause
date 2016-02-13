@@ -60,7 +60,7 @@ package
             DeviceCapabilities.dpi = 300;
             new MetalWorksMobileVectorTheme();
 
-            stage.scaleMode = StageScaleMode.LETTERBOX;
+            stage.scaleMode = StageScaleMode.NONE;
 
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
