@@ -62,6 +62,9 @@ package
 
             stage.scaleMode = StageScaleMode.NONE;
 
+            // Increase map cache size to preserve cached data.
+            TileGrid.MaxTilePixels = 512*256*256;
+
             map = new MapExplorer(stage);
             map.onIdle += map_onIdle;
             map.goTo(startLocation, 13);
