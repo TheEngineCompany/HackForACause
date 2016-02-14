@@ -40,7 +40,6 @@ package
         private var _detailsView:DetailsView;
         private var _data:MapData;
         private var _timer:Timer;
-        private var _QRImage:AsyncImage;
         private var _kiosk:KioskMarker;
 
         private var _detailsTriggerTime:Number = NaN;
@@ -100,28 +99,10 @@ package
 
             _detailsView.setData(dict);
 
-            // Draw some useful info.
-            /*_detailsView.graphics.clear();
-
-            var tfTitle = new TextFormat(null, 128, 0x0, true);
-            tfTitle.align = TextAlign.CENTER;
-            _detailsView.graphics.textFormat(tfTitle);
-            _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 - 200, dict["name"] as String);
-
-            var tfDetails = new TextFormat(null, 32, 0x0, true);
-            tfDetails.align = TextAlign.CENTER;
-            _detailsView.graphics.textFormat(tfDetails);
-            _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 + 150, dict["details"] as String);*/
-
             _detailsTriggerTime = Platform.getTime();
 
-            _QRImage = QRMaker.generateFromLocation(dict["lat"] as String,dict["lon"] as String,256);
-            _QRImage.x = _map.getWidth()    - 128;
-            _QRImage.y = _map.getHeight()    - 128;
-            _map.addChild(_QRImage);
-
-            _map.x = _detailsView.width;
-            _map.setSize(_theStage.stageWidth - _detailsView.width, _theStage.stageHeight);
+            _map.x = 320;
+            _map.setSize(_theStage.stageWidth - 320, _theStage.stageHeight);
         }
         
         public var _theStage:Stage = null;
