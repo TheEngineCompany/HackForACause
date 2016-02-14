@@ -95,7 +95,7 @@ package
             stage.scaleMode = StageScaleMode.NONE;
 
             // Set to false for development.
-            if(false)
+            if(true)
             {
                 stage.fingerEnabled = true;
                 stage.mouseEnabled = false;
