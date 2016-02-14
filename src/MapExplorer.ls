@@ -269,7 +269,11 @@ package
         private function selectLocation(dict:Dictionary.<String, Object>)
         {
             trace("Attraction selected: " + dict['name']);
-            flyTo(new Location(Number(dict['lat']), Number(dict['lon'])));
+            var targetLat = Number.fromString(dict['lat'] as String);
+            var targetLon = Number.fromString(dict['lon'] as String);
+            trace("   o Lat = " + targetLat);
+            trace("   o Lon = " + targetLon);
+            flyTo(new Location(targetLat, targetLon));
             gotoDetails(dict);
             _timer.reset();
         }
