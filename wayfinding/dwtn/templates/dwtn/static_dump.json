@@ -1,0 +1,465 @@
+{
+  "locations": [
+    {
+      "name": "Sixth Street Grill",
+      "img": "assets/locations/sixthstreetgrill.jpg",
+      "lon": "-123.0937108",
+      "catid": 2,
+      "state": true,
+      "details": "text",
+      "lat": "44.0534050"
+    },
+    {
+      "name": "The Cooler Restaurant and Bar",
+      "img": "assets/locations/cooler.jpg",
+      "lon": "-123.0803059",
+      "catid": 2,
+      "state": true,
+      "details": "text",
+      "lat": "44.0601840"
+    },
+    {
+      "name": "The Beer Stein",
+      "img": "assets/locations/beerstein.png",
+      "lon": "-123.0925295",
+      "catid": 2,
+      "state": true,
+      "details": "text",
+      "lat": "44.0423998"
+    },
+    {
+      "name": "Old Nick's Pub",
+      "img": "assets/locations/oldnickspub.jpg",
+      "lon": "-123.1001944",
+      "catid": 2,
+      "state": true,
+      "details": "text",
+      "lat": "44.0574557"
+    },
+    {
+      "name": "The O Bar and Grill",
+      "img": "assets/locations/obar.jpg",
+      "lon": "-123.0560660",
+      "catid": 2,
+      "state": true,
+      "details": "text",
+      "lat": "44.0602655"
+    },
+    {
+      "name": "Ambrosia",
+      "img": "assets/locations/ambrosia.jpg",
+      "lon": "-123.0901710",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0496240"
+    },
+    {
+      "name": "Ax Billy Grill & Sports Bar",
+      "img": "assets/locations/ax-billy-grill-&-sports-bar.jpg",
+      "lon": "-123.0923150",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0490220"
+    },
+    {
+      "name": "Bagel Sphere",
+      "img": "assets/locations/bagel-sphere.jpg",
+      "lon": "-123.0931250",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0505660"
+    },
+    {
+      "name": "Belly",
+      "img": "assets/locations/belly.jpg",
+      "lon": "-123.0920760",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0495280"
+    },
+    {
+      "name": "Bon Mi",
+      "img": "assets/locations/bon-mi.jpg",
+      "lon": "-123.0904170",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0499150"
+    },
+    {
+      "name": "CowFish",
+      "img": "assets/locations/cowfish-nightclub.jpg",
+      "lon": "-123.0934970",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0499120"
+    },
+    {
+      "name": "Cozmic Pizza",
+      "img": "assets/locations/cozmic-pizza.jpg",
+      "lon": "-123.0955470",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0512730"
+    },
+    {
+      "name": "Doc's Pad",
+      "img": "assets/locations/doc's-pad.jpg",
+      "lon": "-123.0927320",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0518250"
+    },
+    {
+      "name": "First National Tap House",
+      "img": "assets/locations/first-national-tab-house.jpg",
+      "lon": "-123.0934180",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0501060"
+    },
+    {
+      "name": "Full City Cafe",
+      "img": "assets/locations/full-city-cafe.jpg",
+      "lon": "-123.0900170",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0505430"
+    },
+    {
+      "name": "Jameson's Bar",
+      "img": "assets/locations/jameson's-bar.jpg",
+      "lon": "-123.0945630",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0501480"
+    },
+    {
+      "name": "Killer Burger",
+      "img": "assets/locations/killer-burger.jpg",
+      "lon": "-123.0932750",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0499100"
+    },
+    {
+      "name": "Lotus Garden",
+      "img": "assets/locations/lotus-garden.jpg",
+      "lon": "-123.0959980",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0507480"
+    },
+    {
+      "name": "Luckey's Club",
+      "img": "assets/locations/luckey's-club.jpg",
+      "lon": "-123.0939450",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0495370"
+    },
+    {
+      "name": "Membrillo",
+      "img": "assets/locations/membrillo.jpg",
+      "lon": "-123.0930710",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0428980"
+    },
+    {
+      "name": "Mezza Luna Pizzeria",
+      "img": "assets/locations/mezza-luna-pizzeria.jpg",
+      "lon": "-123.0893700",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0495500"
+    },
+    {
+      "name": "Noisette Bakery",
+      "img": "assets/locations/noisette-bakery.jpg",
+      "lon": "-123.0960880",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0496590"
+    },
+    {
+      "name": "Novella Cafe",
+      "img": "assets/locations/novella-cafe.jpg",
+      "lon": "-123.0949620",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0485300"
+    },
+    {
+      "name": "Noodle Bowl",
+      "img": "assets/locations/noddle-bowl.jpg",
+      "lon": "-123.0896990",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0503710"
+    },
+    {
+      "name": "Off the Waffle",
+      "img": "assets/locations/off-the-waffle.jpg",
+      "lon": "-123.0929700",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0505220"
+    },
+    {
+      "name": "Poppi's Anatolia",
+      "img": "assets/locations/poppi's-anatolia.jpg",
+      "lon": "-123.0930440",
+      "catid": 2,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0490390"
+    },
+    {
+      "name": "Actor's Caberet",
+      "img": "assets/locations/actor's-cabaret.jpg",
+      "lon": "-123.0931530",
+      "catid": 1,
+      "state": true,
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.",
+      "lat": "44.0489740"
+    },
+    {
+      "name": "Bijou Metro Cinema",
+      "img": "assets/locations/bijou-metro-cinema.jpg",
+      "lon": "-123.0931740",
+      "catid": 1,
+      "state": true,
+      "details": "Enjoy a classic movie in a fun environment.",
+      "lat": "44.0501030"
+    },
+    {
+      "name": "Hult Center",
+      "img": "assets/locations/hult-center.jpg",
+      "lon": "-123.0947770",
+      "catid": 1,
+      "state": true,
+      "details": "Art and culture in a grand and refined environment.",
+      "lat": "44.0524465"
+    },
+    {
+      "name": "Mcdonald Theatre",
+      "img": "assets/locations/mcdonald-theatre.jpg",
+      "lon": "-123.0930560",
+      "catid": 1,
+      "state": true,
+      "details": "Killer music in an intimate setting.",
+      "lat": "44.0486300"
+    },
+    {
+      "name": "Oregon Contemporary Theatre",
+      "img": "assets/locations/oregon-contemporary-theatre.jpg",
+      "lon": "-123.0952830",
+      "catid": 1,
+      "state": true,
+      "details": "All the most contemporary productions.",
+      "lat": "44.0497580"
+    },
+    {
+      "name": "The Shedd Institue",
+      "img": "assets/locations/the-shedd-institute.jpg",
+      "lon": "-123.0885720",
+      "catid": 1,
+      "state": true,
+      "details": "The John G. Shedd Institute for the Arts, or The Shedd Institute, is a performing arts company, cultural arts center, and community music school in Eugene, Oregon, United States.",
+      "lat": "44.0502310"
+    },
+    {
+      "name": "W.O.W. Hall",
+      "img": "assets/locations/w.o.w.-hall.jpg",
+      "lon": "-123.0970860",
+      "catid": 1,
+      "state": true,
+      "details": "The W.O.W. Hall is a performing arts venue in Eugene, Oregon, United States. It was formerly a Woodmen of the World lodge. The W.O.W. Hall was listed on the National Register of Historic Places in 1996.",
+      "lat": "44.0511850"
+    },
+    {
+      "name": "Hult Center Garage",
+      "img": "assets/locations/hult-center.jpg",
+      "lon": "-123.0962848",
+      "catid": 5,
+      "state": true,
+      "details": "Parking for the hult center.",
+      "lat": "44.0523318"
+    },
+    {
+      "name": "Parcade Garage",
+      "img": "assets/locations/voodoo-doughnut.jpg",
+      "lon": "-123.0938560",
+      "catid": 5,
+      "state": true,
+      "details": "Convenient and innovative parking.",
+      "lat": "44.0491280"
+    },
+    {
+      "name": "Overpark Garage",
+      "img": "assets/locations/overpark.jpg",
+      "lon": "-123.0916310",
+      "catid": 5,
+      "state": true,
+      "details": "DAC attached parking.",
+      "lat": "44.0488190"
+    },
+    {
+      "name": "Moss Hair Studio",
+      "img": "assets/locations/moss.jpg",
+      "lon": "-123.0961950",
+      "catid": 4,
+      "state": true,
+      "details": "Great haircuts!",
+      "lat": "44.0523400"
+    },
+    {
+      "name": "Analog Barbershop",
+      "img": "assets/locations/analog-barbershop.jpg",
+      "lon": "-123.0944520",
+      "catid": 4,
+      "state": true,
+      "details": "Never a digital cut. Always the smoothest slice.",
+      "lat": "44.0503360"
+    },
+    {
+      "name": "Downtown Athletic Club",
+      "img": "assets/locations/downtown-athletic-club.jpg",
+      "lon": "-123.0923150",
+      "catid": 4,
+      "state": true,
+      "details": "Excellent facilities for the athletically inclined Eugenian.",
+      "lat": "44.0490220"
+    },
+    {
+      "name": "Kiva Grocery",
+      "img": "assets/locations/kiva-grocery.jpg",
+      "lon": "-123.0947280",
+      "catid": 3,
+      "state": true,
+      "details": "The true Eugene grocery store.",
+      "lat": "44.0478660"
+    },
+    {
+      "name": "Heritage Dry Goods",
+      "img": "assets/locations/heritage-dry-goods.jpg",
+      "lon": "-123.0925830",
+      "catid": 3,
+      "state": true,
+      "details": "Only the very driest items from your history can be found here.",
+      "lat": "44.0503310"
+    },
+    {
+      "name": "Pewter Rabbit",
+      "img": "assets/locations/pewter-rabbit.jpg",
+      "lon": "-123.0905440",
+      "catid": 3,
+      "state": true,
+      "details": "Eugene's on-trend antique shop.",
+      "lat": "44.0497060"
+    },
+    {
+      "name": "The New Zone Gallery",
+      "img": "assets/locations/the-new-zone.jpg",
+      "lon": "-123.0973152",
+      "catid": 7,
+      "state": true,
+      "details": "The New Zone Gallery hosts the annual non-juried \u201cZone 4 All\u201d March 4 \u2013 March 25th. The show is open to all artists with any 2D or 3D work.  Music for the evening will be provided by duo Sonic Pilgrim.",
+      "lat": "44.0497591"
+    },
+    {
+      "name": "Shadowfox",
+      "img": "assets/locations/shadowfox.jpg",
+      "lon": "-123.0960446",
+      "catid": 7,
+      "state": false,
+      "details": "\u201cIntrinsic Motion\u201d  is a performance exploring the visceral experience of music, dance, and art. Professional ballet dancer Amanda Coleman debuts original choreography set to music by Jason Pancoast.",
+      "lat": "44.0497950"
+    },
+    {
+      "name": "Mecca",
+      "img": "assets/locations/mecca.jpg",
+      "lon": "-123.0933847",
+      "catid": 7,
+      "state": true,
+      "details": "Reuse artist Kat Witt turns waste into wonderful in an exhibition that challenges us to think differently about unwanted materials.  This show is a collaboration of color, creative design, and wonder.  Pieces include multimedia works incorporating 3D and lighting effects, fashion design and textiles, and acrylic oil color paper mache printmaking.  All pieces are made by hand with items that were at hand.",
+      "lat": "44.0549248"
+    },
+    {
+      "name": "The Lincoln Gallery",
+      "img": "assets/locations/lincoln-gallery.jpg",
+      "lon": "-123.0997845",
+      "catid": 7,
+      "state": true,
+      "details": "Artists from the OSLP Arts & Culture Program and Tropical Contemporary have come together for this exciting exhibition of contemporary art called \u201cFritos and Cats.\u201d Both artist groups have been working together on collaborative art projects during the month of February.",
+      "lat": "44.0556062"
+    },
+    {
+      "name": "Raven Frameworks",
+      "img": "assets/locations/raven-gallery.jpg",
+      "lon": "-123.0999333",
+      "catid": 7,
+      "state": true,
+      "details": "Raven Frameworks showcases \u201cSmall Pleasures,\u201d featuring drawings, watercolors and mosaic art by Anne Korn and Terry Way. This exhibit is a collection of old and new work, each measuring under 15 X 15 inches.",
+      "lat": "44.0557170"
+    }
+  ],
+  "categories": [
+    {
+      "color": "#990000",
+      "id": 1,
+      "pin": "assets/pin.png",
+      "name": "Entertainment"
+    },
+    {
+      "color": "#990000",
+      "id": 2,
+      "pin": "assets/pin.png",
+      "name": "Food and Drink"
+    },
+    {
+      "color": "#990000",
+      "id": 3,
+      "pin": "assets/pin.png",
+      "name": "Retail"
+    },
+    {
+      "color": "#990000",
+      "id": 4,
+      "pin": "assets/pin.png",
+      "name": "Hair, Beauty & Fitness"
+    },
+    {
+      "color": "#990000",
+      "id": 5,
+      "pin": "assets/pin.png",
+      "name": "Community"
+    },
+    {
+      "color": "#990000",
+      "id": 7,
+      "pin": "assets/pin.png",
+      "name": "ArtWalk"
+    }
+  ]
+}
