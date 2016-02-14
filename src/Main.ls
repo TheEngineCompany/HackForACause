@@ -5,6 +5,8 @@ package
     import system.platform.File;
     import system.platform.Platform;
 
+    import loom.HTTPRequest;
+
     import loom.Application;
     import loom.modestmaps.geo.Location;
     import loom.modestmaps.Map;
@@ -49,10 +51,39 @@ package
         private var slideshow:Slideshow;
         private var updateTimer:Timer;
 
-        private function getData():MapData
+        private var updateRequest:HTTPRequest;
+
+        private function initiateJSONRequest():void
         {
-            var json = JSON.parse(File.loadTextFile("assets/mockdata.json"));
-            return MapData.parse(json);
+            if(updateRequest)
+            {
+                trace("Request already in flight, waiting.");
+                return;
+            }
+
+            updateRequest = new HTTPRequest("http://downtowneug.hour.li/dwtn/make_json/");
+            updateRequest.method = "GET";
+            updateRequest.onSuccess += handleJSONRequest_success;
+            updateRequest.onFailure += handleJSONRequest_failure;
+            updateRequest.send();
+        }
+
+        private function handleJSONRequest_success(v:ByteArray):void
+        {
+            trace("JSON Request Success.");
+            var str = v.readUTFBytes(v.length);
+            trace("Parsing...");
+            data = MapData.parse(JSON.parse(str));
+            trace("OK!");
+            updateRequest = null;
+
+            updateData();
+        }
+
+        private function handleJSONRequest_failure(v:ByteArray):void
+        {
+            trace("JSON Request Failed.");
+            updateRequest = null;            
         }
 
         override public function run():void
@@ -96,19 +127,17 @@ package
             updateTimer.start();
 
             // Inital data update
-            updateData();
+            initiateJSONRequest();
         }
 
         private function updateTimer_onComplete(timer:Timer)
         {
-            updateData();
+            initiateJSONRequest();
             updateTimer.reset();
         }
 
         private function updateData()
         {
-            data = getData();
-
             slideshow.setData(data);
             map.setData(data);
         }
