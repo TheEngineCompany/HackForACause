@@ -19,6 +19,7 @@ package
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
     import loom.platform.Timer;
+    import loom2d.display.Quad;
     import loom2d.events.ScrollWheelEvent;
     import loom2d.math.Rectangle;
     import system.platform.Platform;
@@ -179,6 +180,8 @@ package
             _detailsView = new Panel();
             _detailsView.width = 400;
             _detailsView.height = height;
+            const backgroundSkin:Quad = new Quad(100, 100, 0xFFFFFF);
+            _detailsView.backgroundSkin = backgroundSkin;
             _detailsView.headerFactory = function():ImageLoader {
                 _detailsHeader = new ImageLoader();
                 return _detailsHeader;
