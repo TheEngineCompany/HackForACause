@@ -183,7 +183,7 @@ package
 
             map.panAndZoomBy(1+zoomSpeed*dt, nextLocation, sHelperPoint);
 
-            if (away < 0.1) {
+            if (away < 0.005) {
                 stopped = true;
             }
         }
