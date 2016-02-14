@@ -96,18 +96,21 @@ package
                 changeImage();
 
                 _cityLogo = new Image(Texture.fromAsset("assets/cityLogo.png"));
+                _cityLogo.addEventListener(TouchEvent.TOUCH, currentImage_touchHandler);
                 _cityLogo.touchable = false;
                 _cityLogo.x = 30;
                 _cityLogo.y = 30;
                 addChild(_cityLogo);
 
                 _feeneyLogo = new Image(Texture.fromAsset("assets/feeneyLogo.png"));
+                _feeneyLogo.addEventListener(TouchEvent.TOUCH, currentImage_touchHandler);
                 _feeneyLogo.touchable = false;
                 _feeneyLogo.x = stage.stageWidth - (_feeneyLogo.width + 30);
                 _feeneyLogo.y = 30;
                 addChild(_feeneyLogo);
 
                 _tecLogo = new Image(Texture.fromAsset("assets/tecLogo.png"));
+                _tecLogo.addEventListener(TouchEvent.TOUCH, currentImage_touchHandler);
                 _tecLogo.touchable = false;
                 _tecLogo.x = stage.stageWidth - (_tecLogo.width + 30);
                 _tecLogo.y = stage.stageHeight - (_tecLogo.height + 30);

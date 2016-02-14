@@ -71,7 +71,7 @@ package
         {
             resetViews();
             _listCategories.visible = true;
-            
+
             _map.x = _listCategories.width;
             _map.setSize(_theStage.stageWidth - _listCategories.width, _theStage.stageHeight);
 
@@ -139,7 +139,7 @@ package
             _map.x = 320;
             _map.setSize(_theStage.stageWidth - 320, _theStage.stageHeight);
         }
-        
+
         public var _theStage:Stage = null;
 
         public function MapExplorer(stage:Stage)
@@ -323,7 +323,7 @@ package
 
             _timer.reset();
         }
-        
+
         private function wheelHandler(e:ScrollWheelEvent):void
         {
             if (e.delta != 0 && _flyer.isFlying) {

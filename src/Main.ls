@@ -39,7 +39,6 @@ package
     import feathers.data.VectorListCollectionDataDescriptor;
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
-    import feathers.themes.MetalWorksMobileVectorTheme;
     import feathers.system.DeviceCapabilities;
 
     public class Main extends Application
@@ -83,14 +82,14 @@ package
         private function handleJSONRequest_failure(v:ByteArray):void
         {
             trace("JSON Request Failed.");
-            updateRequest = null;            
+            updateRequest = null;
         }
 
         override public function run():void
         {
             TextField.registerBitmapFont( BitmapFont.load( "assets/arialComplete.fnt" ), "SourceSansPro" );
             DeviceCapabilities.dpi = 300;
-            new MetalWorksMobileVectorTheme();
+            new EugeneTheme();
 
             stage.scaleMode = StageScaleMode.NONE;
 
@@ -100,10 +99,10 @@ package
                 stage.fingerEnabled = true;
                 stage.mouseEnabled = false;
             }
-            else 
+            else
             {
                 stage.fingerEnabled = false;
-                stage.mouseEnabled = true;                
+                stage.mouseEnabled = true;
             }
 
             // Increase map cache size to preserve cached data.
