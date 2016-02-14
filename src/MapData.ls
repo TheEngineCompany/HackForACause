@@ -28,6 +28,13 @@ package
                 result.categories.pushSingle(jsonCategories.getArrayObject(i).getDictionary());
             }
 
+            var allCategory = new Dictionary.<String, Object>();
+            allCategory["name"] = "All";
+            allCategory["id"] = -1;
+            allCategory["pin"] = "assets/pin.png";
+            allCategory["color"] = "#FFFFFFFF";
+            result.categories.pushSingle(allCategory);
+
             return result;
         }
     }
