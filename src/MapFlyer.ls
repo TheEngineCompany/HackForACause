@@ -6,6 +6,7 @@ package
     import loom.modestmaps.mapproviders.IMapProvider;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
     import loom2d.display.DisplayObject;
+    import loom.modestmaps.core.Coordinate;
     import loom2d.display.Graphics;
     import loom2d.display.Shape;
     import loom2d.display.TextAlign;
@@ -54,9 +55,15 @@ package
             timeManager.addTickedObject(this);
         }
 
+        public var forceZoom:Number = NaN;
+
         public function flyTo(location:Location, home:Boolean = false) {
             goingHome = home;
-            flyTarget = location;
+
+            var locations:Vector.<Location> = [location, Main.startLocation];
+            var coordinate:Coordinate = map.locationsCoordinate(locations);
+            forceZoom = coordinate.zoom;
+            flyTarget = map.getMapProvider().coordinateLocation(coordinate);
             stopped = false;
             flySpeed = 0;
         }
@@ -121,9 +128,11 @@ package
             var moveSpeedMax = 10e6;
 
             var targetZoom = minZoom+(maxZoom-minZoom)*(1-Math.sqrt(Math.min2(1, dist/zoomDist)));
+            if(!isNaN(forceZoom))
+                targetZoom = forceZoom;
             if(goingHome)
                 targetZoom = 17;
-
+				
             var zoomDiff = targetZoom - currentZoom;
 
             sHelperPoint.x = map.getWidth() / 2;

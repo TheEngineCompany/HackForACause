@@ -7,6 +7,7 @@ package
     import loom.modestmaps.geo.Location;
     import loom.modestmaps.overlays.ImageMarker;
     import loom.modestmaps.overlays.MarkerClip;
+    import loom.modestmaps.core.MapExtent;
     import loom.modestmaps.Map;
     import loom2d.display.Image;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
@@ -39,7 +40,7 @@ package
         private var _detailsView:DetailsView;
         private var _data:MapData;
         private var _timer:Timer;
-        private var _kioskLocation:Location;
+        private var _QRImage:AsyncImage;
         private var _kiosk:KioskMarker;
 
         private var _detailsTriggerTime:Number = NaN;
@@ -59,6 +60,9 @@ package
         {
             resetViews();
             _listCategories.visible = true;
+            
+            _map.x = _listCategories.width;
+            _map.setSize(_theStage.stageWidth - _listCategories.width, _theStage.stageHeight);
         }
 
         public function gotoAttractions(categoryId:Number):void
@@ -82,7 +86,11 @@ package
 
             _listAttractions.dataProvider = new ListCollection(attractions);
             _listAttractions.visible = true;
+
             _flyer.flyTo(Main.startLocation, true);
+
+            _map.x = _listAttractions.width;
+            _map.setSize(_theStage.stageWidth - _listAttractions.width, _theStage.stageHeight);
         }
 
         public function gotoDetails(dict:Dictionary.<String, Object>):void
@@ -106,10 +114,21 @@ package
             _detailsView.graphics.drawTextLine(stage.stageWidth / 2, stage.stageHeight / 2 + 150, dict["details"] as String);*/
 
             _detailsTriggerTime = Platform.getTime();
+
+            _QRImage = QRMaker.generateFromLocation(dict["lat"] as String,dict["lon"] as String,256);
+            _QRImage.x = _map.getWidth()    - 128;
+            _QRImage.y = _map.getHeight()    - 128;
+            _map.addChild(_QRImage);
+
+            _map.x = _detailsView.width;
+            _map.setSize(_theStage.stageWidth - _detailsView.width, _theStage.stageHeight);
         }
+        
+        public var _theStage:Stage = null;
 
         public function MapExplorer(stage:Stage)
         {
+            _theStage = stage;
             _map = new Map(stage.stageWidth,
                            stage.stageHeight,
                            true,
@@ -278,9 +297,8 @@ package
         {
             _map.removeAllMarkers();
             _kiosk = new KioskMarker();
-            _kioskLocation = new Location(44.0493197,-123.0919375);
             _kiosk.scale = .75;
-            _map.putMarker(_kioskLocation, _kiosk);
+            _map.putMarker(Main.startLocation, _kiosk);
 
 
             for (var i:uint = 0; i < _data.locations.length; i++)
