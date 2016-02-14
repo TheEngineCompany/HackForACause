@@ -59,7 +59,6 @@ package
         {
             resetViews();
             _listCategories.visible = true;
-            _flyer.flyTo(Main.startLocation, true);
         }
 
         public function gotoAttractions(categoryId:Number):void
@@ -83,6 +82,7 @@ package
 
             _listAttractions.dataProvider = new ListCollection(attractions);
             _listAttractions.visible = true;
+            _flyer.flyTo(Main.startLocation, true);
         }
 
         public function gotoDetails(dict:Dictionary.<String, Object>):void
@@ -228,7 +228,9 @@ package
             }
             else
             {
-                if (_flyer.isFlying)
+                //Disabled because it messes up the case that the flyer is flying
+                //back to the kiosk and you select nother target location.
+                if (_flyer.isFlying && false)
                 {
                     _flyer.stop();
                     gotoCategories();
