@@ -3,3 +3,4 @@ logs/
 *~
 *.pyc
 *.pyo
+wayfinding/db.sqlite3
