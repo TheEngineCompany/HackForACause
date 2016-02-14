@@ -56,7 +56,7 @@
     }, 
     {
       "name": "Axe Billy Grill & Sports Bar", 
-      "img": "assets/locations/ax-billy-grill-&-sports-bar.jpg-123.0923150", 
+      "img": "assets/locations/ax-billy-grill-&-sports-bar.jpg", 
       "lon": "-123.0923150", 
       "catid": 2, 
       "state": true, 
@@ -170,6 +170,78 @@
       "state": true, 
       "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
       "lat": "44.0495370"
+    }, 
+    {
+      "name": "Membrillo", 
+      "img": "assets/locations/membrillo.jpg", 
+      "lon": "-123.0930710", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0428980"
+    }, 
+    {
+      "name": "Mezza Luna Pizzeria", 
+      "img": "assets/locations/mezza-luna-pizzeria.jpg", 
+      "lon": "-123.0893700", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0495500"
+    }, 
+    {
+      "name": "Noisette Bakery", 
+      "img": "assets/locations/noisette-bakery.jpg", 
+      "lon": "-123.0960880", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0496590"
+    }, 
+    {
+      "name": "Novella Cafe", 
+      "img": "assets/locations/novella-cafe.jpg", 
+      "lon": "-123.0949620", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0485300"
+    }, 
+    {
+      "name": "Noodle Bowl", 
+      "img": "assets/locations/noddle-bowl.jpg", 
+      "lon": "-123.0896990", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0503710"
+    }, 
+    {
+      "name": "Off the Waffle", 
+      "img": "assets/locations/off-the-waffle.jpg", 
+      "lon": "-123.0929700", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0505220"
+    }, 
+    {
+      "name": "Poppi's Anatolia", 
+      "img": "assets/locations/poppi's-anatolia.jpg", 
+      "lon": "-123.0930440", 
+      "catid": 2, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0490390"
+    }, 
+    {
+      "name": "Actor's Caberet", 
+      "img": "assets/locations/actor's-cabaret.jpg", 
+      "lon": "-123.0931530", 
+      "catid": 1, 
+      "state": true, 
+      "details": "Open from 9am - 5pm. Cool drinks and hot eats! No ice cream.", 
+      "lat": "44.0489740"
     }
   ], 
   "categories": [
