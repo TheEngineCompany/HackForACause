@@ -1,6 +1,8 @@
 package
 {
+    import feathers.controls.ImageLoader;
     import feathers.controls.List;
+    import feathers.controls.Panel;
     import feathers.data.ListCollection;
     import feathers.data.VectorListCollectionDataDescriptor;
     import feathers.layout.AnchorLayoutData;
@@ -14,6 +16,7 @@ package
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
     import loom.platform.Timer;
+    import loom2d.math.Rectangle;
     import system.platform.Platform;
     import loom2d.display.DisplayObjectContainer;
     import loom2d.display.Shape;
@@ -37,7 +40,9 @@ package
         private var _flyer:MapFlyer;
         private var _listAttractions:List;
         private var _listCategories:List;
-        private var _detailsView:DetailsView;
+        private var _detailsView:Panel;
+        private var _detailsTitle:Shape;
+        private var _detailsDesc:Shape;
         private var _data:MapData;
         private var _timer:Timer;
         private var _kiosk:KioskMarker;
@@ -97,7 +102,23 @@ package
             resetViews();
             _detailsView.visible = true;
 
-            _detailsView.setData(dict);
+            //_detailsView.setData(dict);
+
+            _detailsTitle.graphics.clear();
+            _detailsDesc.graphics.clear();
+
+            var tfTitle = new TextFormat(null, 30, 0x0, true);
+            _detailsTitle.graphics.textFormat(tfTitle);
+            var tfDetails = new TextFormat(null, 25, 0x0, true);
+            _detailsDesc.graphics.textFormat(tfDetails);
+
+            _detailsTitle.graphics.drawTextBox(0, 0, 300, dict["name"] as String);
+            _detailsDesc.graphics.drawTextBox(0, 0, 300, dict["details"] as String);
+
+            //_detailsTitle.text = dict["name"] as String;
+            //_detailsDesc.text = dict["details"] as String;
+
+
 
             _detailsTriggerTime = Platform.getTime();
 
@@ -139,8 +160,21 @@ package
             _listCategories.layoutData = new AnchorLayoutData(0, 0, 0, 0);
             addChild(_listCategories);
 
-            _detailsView = new DetailsView();
+            _detailsView = new Panel();
+            _detailsView.width = 320;
+            _detailsView.height = height;
+            _detailsView.headerFactory = setDetailsHeader;
             addChild(_detailsView);
+
+            _detailsTitle = new Shape();
+            _detailsDesc = new Shape();
+            _detailsTitle.y = 220;
+            _detailsTitle.x = 10;
+            _detailsDesc.y = 270;
+            _detailsDesc.x = 10;
+            _detailsView.addChild(_detailsTitle);
+            _detailsView.addChild(_detailsDesc);
+
 
             _timer = new Timer(5 * 60 * 1000); // 5 minute timeout
             _timer.onComplete += function()
@@ -165,6 +199,18 @@ package
             _listAttractions.dataProvider = new ListCollection(_data.locations);
             _listCategories.dataProvider = new ListCollection(_data.categories);
             updateMarkers();
+        }
+
+        private function setDetailsHeader(image:String = ""):ImageLoader {
+            var header:ImageLoader = new ImageLoader();
+            var tex:Texture = Texture.fromAsset("assets/no-image.jpg");
+            header.source = Texture.fromAsset("assets/no-image.jpg");
+
+            header.scaleX = 320 / tex.width;
+            header.scaleY = header.scaleX;
+            //header.clipRect = new Rectangle(0, 0, _detailsView.width, 200);
+
+            return header;
         }
 
         public function gotoLocation(location:Location, zoom:Number)
