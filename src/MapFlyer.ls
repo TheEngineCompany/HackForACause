@@ -83,21 +83,41 @@ package
             var currentLocation:Location = map.getCenter();
             var currentZoom:Number = map.getZoomFractional();
 
+            var dirty:Boolean = false;
+
             if (currentLocation.lat > 44.05320)
+            {
+                dirty = true;
                 currentLocation.lat = 44.05320;
+            }
+
             if (currentLocation.lat < 44.04771)
+            {
+                dirty = true;
                 currentLocation.lat = 44.04771;
+            }
 
             if (currentLocation.lon > -123.08974)
+            {
+                dirty = true;
                 currentLocation.lon = -123.08974;
+            }
+
             if (currentLocation.lon < -123.09733)
+            {
+                dirty = true;
                 currentLocation.lon = -123.09733;
+            }
 
             if (currentZoom < 17)
+            {
+                dirty = true;
                 currentZoom = 17;
+            }
 
-            map.setCenterZoom(currentLocation, currentZoom);
-
+            // Don't set map unless we have to.
+            if(dirty)
+                map.setCenterZoom(currentLocation, currentZoom);
         }
 
         public function onTick()

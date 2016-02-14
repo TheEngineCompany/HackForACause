@@ -105,6 +105,9 @@ package
 
         public function changeImage()
         {
+            if(_data == null)
+                return;
+                
             _currentItem = (Dictionary.<String, Object>)(_data.locations[Math.randomRangeInt(0, _data.locations.length - 1)]);
             _currentImage.texture = Texture.fromAsset(String(_currentItem['img']));
             var y = stage.stageHeight / _currentImage.texture.nativeHeight;

@@ -149,6 +149,7 @@ package
             _flyer = new MapFlyer(_map);
 
             _listAttractions = new List();
+            _listAttractions.width = 400;
             _listAttractions.isSelectable = true;
             _listAttractions.allowMultipleSelection = false;
             _listAttractions.height = height;
@@ -158,6 +159,7 @@ package
             addChild(_listAttractions);
 
             _listCategories = new List();
+            _listCategories.width = 400;
             _listCategories.visible = false;
             _listCategories.isSelectable = true;
             _listCategories.allowMultipleSelection = false;
