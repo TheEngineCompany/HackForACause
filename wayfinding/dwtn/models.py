@@ -4,6 +4,8 @@ from django.db import models
 class Category(models.Model):
     #locations belong to categories
     category_name = models.CharField(max_length=200)
+    pin = models.CharField(max_length=200)
+    color = models.CharField(max_length=8)
     
     def __str__(self):
         return '%s' % self.category_name

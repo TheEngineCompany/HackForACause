@@ -23,7 +23,7 @@ def make_json(request):
     root_dict = {}
     
     for category in Category.objects.all():
-        cat_list.append({"id": category.pk, "name": category.category_name})
+        cat_list.append({"id": category.pk, "name": category.category_name, "pin": category.pin, "color": category.color})
     for location in Location.objects.all():
         loc_list.append({"name": location.location_name, "lon": str(location.lon), "lat": str(location.lat), "img": location.image, "details": location.details, "state": location.state, "catid":str(location.category)})
     root_dict["categories"] = cat_list
@@ -31,3 +31,8 @@ def make_json(request):
     data = json.dumps(root_dict, indent=2)
     
     return HttpResponse(data, content_type='application/json')
+    
+    
+    
+    
+
