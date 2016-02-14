@@ -62,6 +62,7 @@ package
             new MetalWorksMobileVectorTheme();
 
             stage.scaleMode = StageScaleMode.NONE;
+            stage.fingerEnabled = true;
 
             // Increase map cache size to preserve cached data.
             TileGrid.MaxTilePixels = 4096*256*256;
