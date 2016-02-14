@@ -120,9 +120,6 @@ package
             _detailsDesc.graphics.textFormat(tfDetails);
             _detailsDesc.graphics.drawTextBox(0, 0, 300, dict["details"] as String);
 
-            //_detailsTitle.text = dict["name"] as String;
-            //_detailsDesc.text = dict["details"] as String;
-
             _detailsView.removeChild(_QRImage);
             _QRImage.dispose();
             _QRImage = QRMaker.generateFromLocation(dict["lat"] as String, dict["lon"] as String,256);
@@ -130,7 +127,7 @@ package
             _QRImage.y = _detailsDesc.y + _detailsDesc.height + 20 + _QRImage.height/2;
             _detailsView.addChild(_QRImage);
 
-
+            updateHeader(dict);
 
             _map.x = 320;
             _map.setSize(_theStage.stageWidth - 320, _theStage.stageHeight);
@@ -187,9 +184,6 @@ package
             _detailsTitle = new Shape();
             _detailsDesc = new Shape();
             _detailsTitle.y = 10;
-            //_detailsTitle.x = 10;
-            //_detailsDesc.y = _detailsTitle.y + _detailsTitle.height + 20;
-            //_detailsDesc.x = 10;
             _detailsView.addChild(_detailsTitle);
             _detailsView.addChild(_detailsDesc);
             _detailsBack = new Button();
@@ -223,15 +217,28 @@ package
             updateMarkers();
         }
 
-        private function updateHeader()
+        private function updateHeader(dict:Dictionary.<String, Object>)
         {
             var tex:Texture = Texture.fromAsset("assets/no-image.jpg");
 
-            var item:Dictionary.<String, Object> = _listAttractions.selectedItem as Dictionary.<String, Object>;
-            if (item && (item["name"] as String).length > 0)
-                _detailsHeader.source = Texture.fromAsset(item["name"] as String);
+            if (dict && (dict["img"] as String).length > 0)
+            {
+                trace("Image");
+                tex = Texture.fromAsset(dict["img"] as String);
+            }
+
+            var ratio = 3 / 4;
+
+            var w0 = tex.width;
+            var h0 = tex.height;
+            if (w0 * ratio > h0)
+                w0 = h0 / ratio;
             else
-                _detailsHeader.source = Texture.fromAsset("assets/no-image.jpg");
+                h0 = w0 * ratio;
+
+            tex = Texture.fromTexture(tex, new Rectangle((tex.width - w0) / 2, (tex.height - h0) / 2, w0, h0));
+
+            _detailsHeader.source = tex;
 
             _detailsHeader.scaleX = 320 / tex.width;
             _detailsHeader.scaleY = _detailsHeader.scaleX;
