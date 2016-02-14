@@ -53,6 +53,8 @@ package
         private var _kiosk:KioskMarker;
         private var _QRImage:AsyncImage;
 
+        private var curSelectedMarker:MapMarker;
+
         public var onIdle:IdleDelegate;
 
         public function resetViews():void
@@ -71,6 +73,8 @@ package
             
             _map.x = _listCategories.width;
             _map.setSize(_theStage.stageWidth - _listCategories.width, _theStage.stageHeight);
+
+            deselectMarker();
         }
 
         public function gotoAttractions(categoryId:Number):void
@@ -99,6 +103,8 @@ package
 
             _map.x = _listAttractions.width;
             _map.setSize(_theStage.stageWidth - _listAttractions.width, _theStage.stageHeight);
+
+            deselectMarker();
         }
 
         public function gotoDetails(dict:Dictionary.<String, Object>):void
@@ -343,8 +349,28 @@ package
             _timer.reset();
         }
 
+        private function deselectMarker():void
+        {
+            // Deselect old marker.
+            if(curSelectedMarker)
+            {
+                curSelectedMarker.deselect();
+                curSelectedMarker = null;
+            }
+        }
+
         private function selectLocation(dict:Dictionary.<String, Object>)
         {
+            deselectMarker();
+
+            // Select the marker.
+            var m = dict["marker"] as MapMarker;
+            if(m)
+            {
+                m.select();
+                curSelectedMarker = m;
+            }
+
             trace("Attraction selected: " + dict['name']);
             var targetLat = Number.fromString(dict['lat'] as String);
             var targetLon = Number.fromString(dict['lon'] as String);
@@ -362,13 +388,13 @@ package
             _kiosk.scale = .75;
             _map.putMarker(Main.startLocation, _kiosk);
 
-
             for (var i:uint = 0; i < _data.locations.length; i++)
             {
                 var _currentItem:Dictionary.<String, Object> = _data.locations[i] as Dictionary.<String, Object>;
                 var loc:Location = new Location(Number(_currentItem['lat']), Number(_currentItem['lon']));
                 var marker:MapMarker = new MapMarker(i);
                 marker.scale = .50;
+                _currentItem["marker"] = marker;
                 _map.putMarker(loc, marker);
             }
         }
