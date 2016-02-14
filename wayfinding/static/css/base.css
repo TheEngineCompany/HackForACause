@@ -13,14 +13,32 @@ html, body {
     height: 100%;
 }
 #sidebar {
+    float:left;
     width: 300px;
     transition: width .3s;
     
-    background-color:pink;
+    background-color:#efefef;
+    overflow-x:hidden;
+    overflow-y:auto;
 }
 #map {
     width:calc(100% - 300px);
     transition: width .3s;
+}
+
+#categories {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+.category {
+    min-height:20px;
+    padding:15px;
+    margin-top:3px;
+    margin-right:3px;
+    color:white;
+    font-family: sans-serif;
+    transition:transform .3s;
 }
 
 
@@ -30,6 +48,25 @@ html, body {
         width:50px;
     }
     #map {
-    width:calc(100% - 50px);
-}
+       width:calc(100% - 50px);
+    }
+    
+    #categories {
+        width:100vh;
+        white-space:nowrap;
+        height:50px;
+        
+        transform:rotate(90deg) translateY(-50px);
+        transform-origin:left top;
+        margin:0;
+    }
+    .category {
+        transform: rotate(180deg);
+        box-sizing:border-box;
+        display: inline-block;
+        font-size:9pt;
+        padding-top:0;
+        height:100%;
+        padding-bottom:0;
+    }
 }
