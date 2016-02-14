@@ -28,6 +28,10 @@ package
         private var _locateButton:Button;
         private var _timer:Timer;
 
+        private var _cityLogo:Image;
+        private var _feeneyLogo:Image;
+        private var _tecLogo:Image;
+
         public var onLocate:LocateDelegate;
         public var onStop:StopDelegate;
 
@@ -90,6 +94,24 @@ package
                 _locateButton.center();
 
                 changeImage();
+
+                _cityLogo = new Image(Texture.fromAsset("assets/cityLogo.png"));
+                _cityLogo.touchable = false;
+                _cityLogo.x = 30;
+                _cityLogo.y = 30;
+                addChild(_cityLogo);
+
+                _feeneyLogo = new Image(Texture.fromAsset("assets/feeneyLogo.png"));
+                _feeneyLogo.touchable = false;
+                _feeneyLogo.x = stage.stageWidth - (_feeneyLogo.width + 30);
+                _feeneyLogo.y = 30;
+                addChild(_feeneyLogo);
+
+                _tecLogo = new Image(Texture.fromAsset("assets/tecLogo.png"));
+                _tecLogo.touchable = false;
+                _tecLogo.x = stage.stageWidth - (_tecLogo.width + 30);
+                _tecLogo.y = stage.stageHeight - (_tecLogo.height + 30);
+                addChild(_tecLogo);
             }
 
             animateImage();
@@ -107,7 +129,7 @@ package
         {
             if(_data == null)
                 return;
-                
+
             _currentItem = (Dictionary.<String, Object>)(_data.locations[Math.randomRangeInt(0, _data.locations.length - 1)]);
             _currentImage.texture = Texture.fromAsset(String(_currentItem['img']));
             var y = stage.stageHeight / _currentImage.texture.nativeHeight;
