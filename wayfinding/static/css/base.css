@@ -25,6 +25,20 @@ html, body {
     width:calc(100% - 300px);
     transition: width .3s;
 }
+.marker {
+    border-radius:10%;
+    color:white;
+    line-height:100%;
+    text-align: center;
+    padding:10px;
+    font-size:15px;
+    font-weight: bold;
+}
+.myMarker {
+    background-color:cadetblue;
+    color:#444;
+    font-weight: normal;
+}
 
 #categories {
     list-style: none;

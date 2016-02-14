@@ -2,7 +2,7 @@
 
 var data_url = '/dwtn/make_json';
 
-var map = L.map('map').setView([44.0539, -123.0944], 12);
+var map = L.map('map').setView([44.0539, -123.0944], 12, {"animate": true});
 
 // http://a.tile.stamen.com/toner/${z}/${x}/${y}.png
 L.tileLayer("http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", { maxzoom : 18 }).addTo(map)
@@ -11,8 +11,38 @@ L.tileLayer("http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", { maxzoom : 1
 var outline = { "type":"Feature", "geometry": {"type":"Polygon","coordinates":[[[-123.100365600495,44.045516028131],[-123.100365600495,44.0587890681825],[-123.079038340709,44.0587890681825],[-123.079038340709,44.045516028131],[-123.100365600495,44.045516028131]]]}, "properties": { "label": "Eugene Downtown" }}
 L.geoJson(outline).addTo(map)
 
+var my_coords = false
+
+function you_are_here(lat, lon) {
+	if (! my_marker) {
+		var my_marker = L.marker(L.latLng(lat, lon), {"icon": L.divIcon({"html": 'You Are Here', "className": 'marker myMarker' }), }).addTo(map);
+	}
+	else {
+		console.log(my_marker)
+	}
+	my_coords = L.LatLng(lat, lon);
+	console.log(lat, lon)
+}
+
 if (navigator.geolocation) {
-	console.log("mebe?")
+	function geo_success(position) {
+		you_are_here(position.coords.latitude, position.coords.longitude);
+	}
+
+	var geo_options = {
+	  enableHighAccuracy: true,
+	  maximumAge        : 30000,
+	  timeout           : 27000
+	};
+
+	var wpid = navigator.geolocation.watchPosition(geo_success, function() {}, geo_options);
+}
+
+function activate_marker(e) {
+	if (my_coords) {
+		console.log(e)
+		console.log(route, L.route)
+	}
 }
 
 
@@ -27,20 +57,35 @@ function render_category(category) {
 	cat_title.textContent = category.name;
 	cat_li.appendChild(cat_title);
 	
-	var cat_loc_list = document.createElement("ul");
-	cat_li.appendChild(cat_loc_list);
+	var loc_list = document.createElement("ul");
+	loc_list.classList.add("locations");
+	cat_li.appendChild(loc_list);
 	
 	document.getElementById('categories').appendChild(cat_li);
 }
 
 function generate_menu(data) {
-	console.log(data)
+	var categorized = []
+	
 	for (var i=0; i<data.categories.length; i++) {
+		
 		render_category(data.categories[i]);
+		var catclass = "marker_cat_" + data.categories[i].id
+		data.categories[i].icon = L.divIcon({"className": "marker " + catclass, "html": data.categories[i].name.charAt(0).toUpperCase() })
 	}
 	for (var i=0; i<data.locations.length; i++) {
+		
+		var category = data.categories.filter(function(cat) {
+			return cat.id == data.locations[i].catid;
+		})[0];
+		
+		var loc_li = document.createElement("li");
+		loc_li.classList.add("location");
+		
 		var coords = L.latLng(data.locations[i].lat, data.locations[i].lon);
-		L.marker(coords, { "title": data.locations[i].name, "riseOnHover": true }).addTo(map)
+		var marker = L.marker(coords, { "title": data.locations[i].name, "icon": category.icon, "riseOnHover": true })
+		marker.on("click", activate_marker)
+		marker.addTo(map)
 	}
 }
 
@@ -65,6 +110,13 @@ request.onload = function() {
 		var data = JSON.parse(this.response);
 		generate_menu(data)
 		
+		for (var i=0; i<data.categories.length; i++) {
+			var markers = document.getElementsByClassName('marker_cat_' + data.categories[i].id)
+			
+			for (var n = 0; n < markers.length; n++) {
+  				markers[n].style.backgroundColor = data.categories[i].color;
+			}
+		}
 		
 	} else {
 		console.log("error 1")
