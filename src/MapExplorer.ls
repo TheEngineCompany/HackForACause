@@ -1,8 +1,10 @@
 package
 {
+    import feathers.controls.Button;
     import feathers.controls.ImageLoader;
     import feathers.controls.List;
     import feathers.controls.Panel;
+    import feathers.controls.Scroller;
     import feathers.data.ListCollection;
     import feathers.data.VectorListCollectionDataDescriptor;
     import feathers.layout.AnchorLayoutData;
@@ -11,6 +13,7 @@ package
     import loom.modestmaps.overlays.MarkerClip;
     import loom.modestmaps.core.MapExtent;
     import loom.modestmaps.Map;
+    import loom2d.display.AsyncImage;
     import loom2d.display.Image;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
@@ -43,11 +46,12 @@ package
         private var _detailsView:Panel;
         private var _detailsTitle:Shape;
         private var _detailsDesc:Shape;
+        private var _detailsBack:Button;
+        private var _detailsHeader:ImageLoader;
         private var _data:MapData;
         private var _timer:Timer;
         private var _kiosk:KioskMarker;
-
-        private var _detailsTriggerTime:Number = NaN;
+        private var _QRImage:AsyncImage;
 
         public var onIdle:IdleDelegate;
 
@@ -109,18 +113,24 @@ package
 
             var tfTitle = new TextFormat(null, 30, 0x0, true);
             _detailsTitle.graphics.textFormat(tfTitle);
+            _detailsTitle.graphics.drawTextBox(0, 0, 300, dict["name"] as String);
+
+            _detailsDesc.y = _detailsTitle.y + _detailsTitle.height + 20;
             var tfDetails = new TextFormat(null, 25, 0x0, true);
             _detailsDesc.graphics.textFormat(tfDetails);
-
-            _detailsTitle.graphics.drawTextBox(0, 0, 300, dict["name"] as String);
             _detailsDesc.graphics.drawTextBox(0, 0, 300, dict["details"] as String);
 
             //_detailsTitle.text = dict["name"] as String;
             //_detailsDesc.text = dict["details"] as String;
 
+            _detailsView.removeChild(_QRImage);
+            _QRImage.dispose();
+            _QRImage = QRMaker.generateFromLocation(dict["lat"] as String, dict["lon"] as String,256);
+            _QRImage.x = 320/2 - _detailsView.paddingLeft;
+            _QRImage.y = _detailsDesc.y + _detailsDesc.height + 20 + _QRImage.height/2;
+            _detailsView.addChild(_QRImage);
 
 
-            _detailsTriggerTime = Platform.getTime();
 
             _map.x = 320;
             _map.setSize(_theStage.stageWidth - 320, _theStage.stageHeight);
@@ -163,17 +173,28 @@ package
             _detailsView = new Panel();
             _detailsView.width = 320;
             _detailsView.height = height;
-            _detailsView.headerFactory = setDetailsHeader;
+            _detailsView.headerFactory = function():ImageLoader {
+                _detailsHeader = new ImageLoader();
+                return _detailsHeader;
+            };
+            _detailsView.footerFactory = function():Button {
+                _detailsBack.label = "< Back";
+                return _detailsBack;
+            };
+            _detailsView.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
             addChild(_detailsView);
 
             _detailsTitle = new Shape();
             _detailsDesc = new Shape();
-            _detailsTitle.y = 220;
-            _detailsTitle.x = 10;
-            _detailsDesc.y = 270;
-            _detailsDesc.x = 10;
+            _detailsTitle.y = 10;
+            //_detailsTitle.x = 10;
+            //_detailsDesc.y = _detailsTitle.y + _detailsTitle.height + 20;
+            //_detailsDesc.x = 10;
             _detailsView.addChild(_detailsTitle);
             _detailsView.addChild(_detailsDesc);
+            _detailsBack = new Button();
+
+            _QRImage = new AsyncImage(null, null, 0, 0);
 
 
             _timer = new Timer(5 * 60 * 1000); // 5 minute timeout
@@ -188,6 +209,7 @@ package
             _map.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listAttractions.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listCategories.addEventListener(TouchEvent.TOUCH, touchHandler);
+            _detailsView.addEventListener(TouchEvent.TOUCH, touchHandler);
 
             // Start in categories.
             gotoCategories();
@@ -201,16 +223,18 @@ package
             updateMarkers();
         }
 
-        private function setDetailsHeader(image:String = ""):ImageLoader {
-            var header:ImageLoader = new ImageLoader();
+        private function updateHeader()
+        {
             var tex:Texture = Texture.fromAsset("assets/no-image.jpg");
-            header.source = Texture.fromAsset("assets/no-image.jpg");
 
-            header.scaleX = 320 / tex.width;
-            header.scaleY = header.scaleX;
-            //header.clipRect = new Rectangle(0, 0, _detailsView.width, 200);
+            var item:Dictionary.<String, Object> = _listAttractions.selectedItem as Dictionary.<String, Object>;
+            if (item && (item["name"] as String).length > 0)
+                _detailsHeader.source = Texture.fromAsset(item["name"] as String);
+            else
+                _detailsHeader.source = Texture.fromAsset("assets/no-image.jpg");
 
-            return header;
+            _detailsHeader.scaleX = 320 / tex.width;
+            _detailsHeader.scaleY = _detailsHeader.scaleX;
         }
 
         public function gotoLocation(location:Location, zoom:Number)
@@ -255,12 +279,6 @@ package
             if (t)
                 return;
 
-            if(Platform.getTime() - _detailsTriggerTime > 3000 && !isNaN(_detailsTriggerTime))
-            {
-                _detailsTriggerTime = NaN;
-                gotoCategories();
-            }
-
             t = e.getTouch(stage, TouchPhase.ENDED);
             if (t)
             {
@@ -270,6 +288,10 @@ package
                     var dict:Dictionary.<String, Object> = _data.locations[marker.id] as Dictionary.<String, Object>;
                     if (dict)
                         selectLocation(dict);
+                }
+                else if (e.target == _detailsBack)
+                {
+                    gotoCategories();
                 }
             }
             else
