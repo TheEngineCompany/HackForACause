@@ -19,6 +19,7 @@ package
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
     import loom.platform.Timer;
+    import loom2d.events.ScrollWheelEvent;
     import loom2d.math.Rectangle;
     import system.platform.Platform;
     import loom2d.display.DisplayObjectContainer;
@@ -208,6 +209,7 @@ package
 
             _map.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
             _map.addEventListener(TouchEvent.TOUCH, touchHandler);
+            _map.addEventListener(ScrollWheelEvent.SCROLLWHEEL, wheelHandler);
             _listAttractions.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listCategories.addEventListener(TouchEvent.TOUCH, touchHandler);
             _detailsView.addEventListener(TouchEvent.TOUCH, touchHandler);
@@ -320,6 +322,14 @@ package
             }
 
             _timer.reset();
+        }
+        
+        private function wheelHandler(e:ScrollWheelEvent):void
+        {
+            if (e.delta != 0 && _flyer.isFlying) {
+                _flyer.stop();
+                gotoCategories();
+            }
         }
 
         private function list_changeHandler(event:Event):void
