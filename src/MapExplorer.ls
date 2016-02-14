@@ -228,7 +228,9 @@ package
             }
             else
             {
-                if (_flyer.isFlying)
+                //Disabled because it messes up the case that the flyer is flying
+                //back to the kiosk and you select nother target location.
+                if (_flyer.isFlying && false)
                 {
                     _flyer.stop();
                     gotoCategories();
