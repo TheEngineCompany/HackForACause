@@ -127,7 +127,7 @@ package
             _detailsDesc.graphics.drawTextBox(0, 0, 300, dict["details"] as String);
 
             _detailsView.removeChild(_QRImage);
-            _QRImage.dispose();
+            //_QRImage.dispose(); // Disabled as it crashes when you do it fast.
             _QRImage = QRMaker.generateFromLocation(dict["lat"] as String, dict["lon"] as String,256);
             _QRImage.x = 320/2 - _detailsView.paddingLeft;
             _QRImage.y = _detailsDesc.y + _detailsDesc.height + 20 + _QRImage.height/2;
