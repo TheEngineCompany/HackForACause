@@ -198,8 +198,7 @@ package
 
             _QRImage = new AsyncImage(null, null, 0, 0);
 
-
-            _timer = new Timer(5 * 60 * 1000); // 5 minute timeout
+            _timer = new Timer(3 * 60 * 1000); // 3 minute timeout
             _timer.onComplete += function()
             {
                 if (this.visible)
