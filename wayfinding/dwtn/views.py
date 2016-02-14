@@ -35,5 +35,5 @@ def make_json(request):
         data = json.dumps(root_dict, indent=2)
         
         return HttpResponse(data, content_type='application/json')
-    else:
+    else: # if not on a production server, return static data for testing
         return render(request, 'dwtn/static_dump.json', content_type='application/json')
