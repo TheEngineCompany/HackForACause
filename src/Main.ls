@@ -124,7 +124,9 @@ package
             slideshow.stop();
             slideshow.visible = false;
 
-            var loc = new Location(Number(item['lat']), Number(item['lon']));
+            var targetLat = Number.fromString(item['lat'] as String);
+            var targetLon = Number.fromString(item['lon'] as String);
+            var loc = new Location(targetLat, targetLon);
             map.flyTo(loc);
             map.visible = true;
             map.onShown();

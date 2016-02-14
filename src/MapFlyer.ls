@@ -62,7 +62,7 @@ package
 
             var locations:Vector.<Location> = [location, Main.startLocation];
             var coordinate:Coordinate = map.locationsCoordinate(locations);
-            forceZoom = coordinate.zoom;
+            forceZoom = coordinate.zoom * 0.995;
             flyTarget = map.getMapProvider().coordinateLocation(coordinate);
             stopped = false;
             flySpeed = 0;
@@ -132,7 +132,7 @@ package
                 targetZoom = forceZoom;
             if(goingHome)
                 targetZoom = 17;
-				
+
             var zoomDiff = targetZoom - currentZoom;
 
             sHelperPoint.x = map.getWidth() / 2;
