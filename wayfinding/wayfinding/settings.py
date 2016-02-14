@@ -56,7 +56,7 @@ ROOT_URLCONF = 'wayfinding.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['wayfinding/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
