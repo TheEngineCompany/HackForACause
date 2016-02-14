@@ -1,6 +1,10 @@
 package
 {
+    import feathers.controls.Button;
+    import feathers.controls.ImageLoader;
     import feathers.controls.List;
+    import feathers.controls.Panel;
+    import feathers.controls.Scroller;
     import feathers.data.ListCollection;
     import feathers.data.VectorListCollectionDataDescriptor;
     import feathers.layout.AnchorLayoutData;
@@ -9,11 +13,13 @@ package
     import loom.modestmaps.overlays.MarkerClip;
     import loom.modestmaps.core.MapExtent;
     import loom.modestmaps.Map;
+    import loom2d.display.AsyncImage;
     import loom2d.display.Image;
     import loom.modestmaps.mapproviders.microsoft.MicrosoftRoadMapProvider;
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
     import loom.platform.Timer;
+    import loom2d.math.Rectangle;
     import system.platform.Platform;
     import loom2d.display.DisplayObjectContainer;
     import loom2d.display.Shape;
@@ -37,12 +43,15 @@ package
         private var _flyer:MapFlyer;
         private var _listAttractions:List;
         private var _listCategories:List;
-        private var _detailsView:DetailsView;
+        private var _detailsView:Panel;
+        private var _detailsTitle:Shape;
+        private var _detailsDesc:Shape;
+        private var _detailsBack:Button;
+        private var _detailsHeader:ImageLoader;
         private var _data:MapData;
         private var _timer:Timer;
         private var _kiosk:KioskMarker;
-
-        private var _detailsTriggerTime:Number = NaN;
+        private var _QRImage:AsyncImage;
 
         public var onIdle:IdleDelegate;
 
@@ -97,9 +106,28 @@ package
             resetViews();
             _detailsView.visible = true;
 
-            _detailsView.setData(dict);
+            //_detailsView.setData(dict);
 
-            _detailsTriggerTime = Platform.getTime();
+            _detailsTitle.graphics.clear();
+            _detailsDesc.graphics.clear();
+
+            var tfTitle = new TextFormat(null, 30, 0x0, true);
+            _detailsTitle.graphics.textFormat(tfTitle);
+            _detailsTitle.graphics.drawTextBox(0, 0, 300, dict["name"] as String);
+
+            _detailsDesc.y = _detailsTitle.y + _detailsTitle.height + 20;
+            var tfDetails = new TextFormat(null, 25, 0x0, true);
+            _detailsDesc.graphics.textFormat(tfDetails);
+            _detailsDesc.graphics.drawTextBox(0, 0, 300, dict["details"] as String);
+
+            _detailsView.removeChild(_QRImage);
+            _QRImage.dispose();
+            _QRImage = QRMaker.generateFromLocation(dict["lat"] as String, dict["lon"] as String,256);
+            _QRImage.x = 320/2 - _detailsView.paddingLeft;
+            _QRImage.y = _detailsDesc.y + _detailsDesc.height + 20 + _QRImage.height/2;
+            _detailsView.addChild(_QRImage);
+
+            updateHeader(dict);
 
             _map.x = 320;
             _map.setSize(_theStage.stageWidth - 320, _theStage.stageHeight);
@@ -139,8 +167,29 @@ package
             _listCategories.layoutData = new AnchorLayoutData(0, 0, 0, 0);
             addChild(_listCategories);
 
-            _detailsView = new DetailsView();
+            _detailsView = new Panel();
+            _detailsView.width = 320;
+            _detailsView.height = height;
+            _detailsView.headerFactory = function():ImageLoader {
+                _detailsHeader = new ImageLoader();
+                return _detailsHeader;
+            };
+            _detailsView.footerFactory = function():Button {
+                _detailsBack.label = "< Back";
+                return _detailsBack;
+            };
+            _detailsView.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
             addChild(_detailsView);
+
+            _detailsTitle = new Shape();
+            _detailsDesc = new Shape();
+            _detailsTitle.y = 10;
+            _detailsView.addChild(_detailsTitle);
+            _detailsView.addChild(_detailsDesc);
+            _detailsBack = new Button();
+
+            _QRImage = new AsyncImage(null, null, 0, 0);
+
 
             _timer = new Timer(5 * 60 * 1000); // 5 minute timeout
             _timer.onComplete += function()
@@ -154,6 +203,7 @@ package
             _map.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listAttractions.addEventListener(TouchEvent.TOUCH, touchHandler);
             _listCategories.addEventListener(TouchEvent.TOUCH, touchHandler);
+            _detailsView.addEventListener(TouchEvent.TOUCH, touchHandler);
 
             // Start in categories.
             gotoCategories();
@@ -165,6 +215,33 @@ package
             _listAttractions.dataProvider = new ListCollection(_data.locations);
             _listCategories.dataProvider = new ListCollection(_data.categories);
             updateMarkers();
+        }
+
+        private function updateHeader(dict:Dictionary.<String, Object>)
+        {
+            var tex:Texture = Texture.fromAsset("assets/no-image.jpg");
+
+            if (dict && (dict["img"] as String).length > 0)
+            {
+                trace("Image");
+                tex = Texture.fromAsset(dict["img"] as String);
+            }
+
+            var ratio = 3 / 4;
+
+            var w0 = tex.width;
+            var h0 = tex.height;
+            if (w0 * ratio > h0)
+                w0 = h0 / ratio;
+            else
+                h0 = w0 * ratio;
+
+            tex = Texture.fromTexture(tex, new Rectangle((tex.width - w0) / 2, (tex.height - h0) / 2, w0, h0));
+
+            _detailsHeader.source = tex;
+
+            _detailsHeader.scaleX = 320 / tex.width;
+            _detailsHeader.scaleY = _detailsHeader.scaleX;
         }
 
         public function gotoLocation(location:Location, zoom:Number)
@@ -209,12 +286,6 @@ package
             if (t)
                 return;
 
-            if(Platform.getTime() - _detailsTriggerTime > 3000 && !isNaN(_detailsTriggerTime))
-            {
-                _detailsTriggerTime = NaN;
-                gotoCategories();
-            }
-
             t = e.getTouch(stage, TouchPhase.ENDED);
             if (t)
             {
@@ -224,6 +295,10 @@ package
                     var dict:Dictionary.<String, Object> = _data.locations[marker.id] as Dictionary.<String, Object>;
                     if (dict)
                         selectLocation(dict);
+                }
+                else if (e.target == _detailsBack)
+                {
+                    gotoCategories();
                 }
             }
             else
