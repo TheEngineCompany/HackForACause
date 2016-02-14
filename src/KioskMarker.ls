@@ -22,7 +22,7 @@ package
                 _pinNormal = Texture.fromAsset("assets/kiosk_pin.png");
             }
             
-	    this.texture = _pinNormal;
+        this.texture = _pinNormal;
 
             // Move pin so it points to proper location
             pivotX = width / scaleX / 2;
