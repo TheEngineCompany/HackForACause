@@ -18,7 +18,7 @@ class Location(models.Model):
     image = models.CharField(max_length=300)                        # possibly excessive too
     state = models.BooleanField()
     details = models.CharField(max_length=500)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)    #what does the on_delete call do here?
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)   #what does the on_delete call do here?
 
     def __str__(self):
         return '%s' % self.location_name
