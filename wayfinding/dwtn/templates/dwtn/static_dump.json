@@ -426,37 +426,37 @@
   ],
   "categories": [
     {
-      "color": "#990000",
+      "color": "#ad5549",
       "id": 1,
       "pin": "assets/pin.png",
       "name": "Entertainment"
     },
     {
-      "color": "#990000",
+      "color": "#498e3b",
       "id": 2,
       "pin": "assets/pin.png",
       "name": "Food and Drink"
     },
     {
-      "color": "#990000",
+      "color": "#2A5AA7",
       "id": 3,
       "pin": "assets/pin.png",
       "name": "Retail"
     },
     {
-      "color": "#990000",
+      "color": "#8749ad",
       "id": 4,
       "pin": "assets/pin.png",
       "name": "Hair, Beauty & Fitness"
     },
     {
-      "color": "#990000",
+      "color": "#49a2ad",
       "id": 5,
       "pin": "assets/pin.png",
       "name": "Community"
     },
     {
-      "color": "#990000",
+      "color": "#ad496f",
       "id": 7,
       "pin": "assets/pin.png",
       "name": "ArtWalk"
