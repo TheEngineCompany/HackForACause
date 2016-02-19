@@ -47,6 +47,44 @@ function activate_marker(e) {
 	}
 }
 
+function category(name, color) {
+	this.name = name;
+	this.color = color;
+	
+	var li = document.createElement("li");
+	li.classList.add("category");
+	li.setAttribute("style", "background-color:" + category.color + ";");
+	li.setAttribute("data-category-id", category.id);
+	
+	var title = document.createElement("h3");
+	title.textContent = category.name;
+	li.appendChild(title);
+	
+	var locations = document.createElement("ul");
+	locations.classList.add("locations");
+	locations.setAttribute("id", 'category_' + category.id + '_loclist');
+	li.appendChild(locations);
+	
+	document.getElementById('categories').appendChild(cat_li);
+	
+}
+
+function location(lat, lon, category, name, details, image) {
+	this.coordinates = L.LatLng(lat, lon);
+	this.category = data.categories.filter(function(c) { return c.id == data.locations[i].catid })[0];
+	this.name = name;
+	this.details = details;
+	this.imagePath = image;
+	
+	var li = document.createElement("li");
+	li.classList.add("location");
+	li.textContent = data.locations[i].name;
+	document.getElementById('category_' + category.id + '_loclist').appendChild(li);
+	
+	this.marker = L.marker(coords, { "title": data.locations[i].name, "icon": category.icon, "riseOnHover": true })
+	this.marker.on("click", activate_marker)
+	this.marker.addTo(map)
+}
 
 function render_category(category) {
 	
@@ -69,9 +107,9 @@ function render_category(category) {
 
 function generate_menu(data) {
 	var categorized = []
+	console.log(data)
 	
 	for (var i=0; i<data.categories.length; i++) {
-		
 		render_category(data.categories[i]);
 		var catclass = "marker_cat_" + data.categories[i].id
 		data.categories[i].icon = L.divIcon({"className": "marker " + catclass, "html": data.categories[i].name.charAt(0).toUpperCase() })
