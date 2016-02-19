@@ -11,7 +11,7 @@ L.tileLayer("http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", { maxzoom : 1
 var outline = { "type":"Feature", "geometry": {"type":"Polygon","coordinates":[[[-123.100365600495,44.045516028131],[-123.100365600495,44.0587890681825],[-123.079038340709,44.0587890681825],[-123.079038340709,44.045516028131],[-123.100365600495,44.045516028131]]]}, "properties": { "label": "Eugene Downtown" }}
 L.geoJson(outline).addTo(map)
 
-var my_coords = false
+var my_coords = null
 
 function you_are_here(lat, lon) {
 	if (! my_marker) {
@@ -21,6 +21,7 @@ function you_are_here(lat, lon) {
 		console.log(my_marker)
 	}
 	my_coords = L.LatLng(lat, lon);
+	console.log(my_coords)
 	console.log(lat, lon)
 }
 
@@ -39,6 +40,7 @@ if (navigator.geolocation) {
 }
 
 function activate_marker(e) {
+	console.log(e, my_coords)
 	if (my_coords) {
 		console.log(e)
 		console.log(route, L.route)
@@ -59,6 +61,7 @@ function render_category(category) {
 	
 	var loc_list = document.createElement("ul");
 	loc_list.classList.add("locations");
+	loc_list.setAttribute("id", 'category_' + category.id + '_loclist');
 	cat_li.appendChild(loc_list);
 	
 	document.getElementById('categories').appendChild(cat_li);
@@ -81,6 +84,8 @@ function generate_menu(data) {
 		
 		var loc_li = document.createElement("li");
 		loc_li.classList.add("location");
+		loc_li.textContent = data.locations[i].name;
+		document.getElementById('category_' + category.id + '_loclist').appendChild(loc_li);
 		
 		var coords = L.latLng(data.locations[i].lat, data.locations[i].lon);
 		var marker = L.marker(coords, { "title": data.locations[i].name, "icon": category.icon, "riseOnHover": true })

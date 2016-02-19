@@ -21,19 +21,21 @@ html, body {
     overflow-x:hidden;
     overflow-y:auto;
 }
+
 #map {
     width:calc(100% - 300px);
     transition: width .3s;
 }
 .marker {
-    border-radius:10%;
+    border-radius:100%;
     color:white;
     line-height:100%;
     text-align: center;
-    padding:10px;
-    font-size:15px;
+    padding:5px;
+    font-size:100%;
     font-weight: bold;
 }
+
 .myMarker {
     background-color:cadetblue;
     color:#444;
@@ -54,8 +56,24 @@ html, body {
     font-family: sans-serif;
     transition:transform .3s;
 }
+.category:last-child {
+    margin-bottom:3px;
+}
 
-
+.locations {
+    list-style:none;
+    padding:0;
+}
+.location {
+    padding:10px 0;
+    padding-left:20px;
+    box-shadow:0 0 0 100px rgba(255,255,255,.0)inset;
+    transition: box-shadow .2s;
+    
+}
+.location:hover {
+    box-shadow:0 0 0 100px rgba(255,255,255,.2)inset;
+}
 
 @media (max-width:700px) {
     #sidebar {
