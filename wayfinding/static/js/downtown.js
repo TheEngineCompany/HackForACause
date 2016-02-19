@@ -69,18 +69,18 @@ function category(name, color) {
 	
 }
 
-function location(lat, lon, category, name, details, image) {
+function attraction(lat, lon, category, name, details, image) {
 	this.coordinates = L.LatLng(lat, lon);
 	this.category = data.categories.filter(function(c) { return c.id == data.locations[i].catid })[0];
 	this.name = name;
 	this.details = details;
 	this.imagePath = image;
-	
+
 	var li = document.createElement("li");
 	li.classList.add("location");
 	li.textContent = data.locations[i].name;
 	document.getElementById('category_' + category.id + '_loclist').appendChild(li);
-	
+
 	this.marker = L.marker(coords, { "title": data.locations[i].name, "icon": category.icon, "riseOnHover": true })
 	this.marker.on("click", activate_marker)
 	this.marker.addTo(map)
