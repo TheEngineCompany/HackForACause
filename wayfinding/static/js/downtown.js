@@ -132,23 +132,28 @@ function generate_menu(data) {
 	}
 }
 
+function main() {
+	
+	// set colors of markers
+	for (var i=0; i<data.categories.length; i++) {
+		var markers = document.getElementsByClassName('marker_cat_' + data.categories[i].id)
+		
+		for (var n = 0; n < markers.length; n++) {
+			markers[n].style.backgroundColor = data.categories[i].color;
+		}
+	}
+	
+}
+
 // get JSON data from server
 var request = new XMLHttpRequest();
 request.open('GET', data_url);
 request.onload = function() {
 	if (this.status >= 200 && this.status <= 400) {
-		// hurray, you some datums
-		
+		// hurray, we got some datums
 		var data = JSON.parse(this.response);
 		generate_menu(data)
-		
-		for (var i=0; i<data.categories.length; i++) {
-			var markers = document.getElementsByClassName('marker_cat_' + data.categories[i].id)
-			
-			for (var n = 0; n < markers.length; n++) {
-  				markers[n].style.backgroundColor = data.categories[i].color;
-			}
-		}
+		main()
 		
 	} else {
 		alert("sorry, something went wrong while fetching data from the server")
