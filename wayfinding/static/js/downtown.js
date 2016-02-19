@@ -132,7 +132,9 @@ function generate_menu(data) {
 	}
 }
 
-function main() {
+function main(data) {
+	
+	generate_menu(data)
 	
 	// set colors of markers
 	for (var i=0; i<data.categories.length; i++) {
@@ -152,8 +154,7 @@ request.onload = function() {
 	if (this.status >= 200 && this.status <= 400) {
 		// hurray, we got some datums
 		var data = JSON.parse(this.response);
-		generate_menu(data)
-		main()
+		main(data)
 		
 	} else {
 		alert("sorry, something went wrong while fetching data from the server")
