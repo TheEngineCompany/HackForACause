@@ -96,24 +96,6 @@ function Attraction(lat, lon, category, name) {
 	this.marker.addTo(map)
 }
 
-// function render_category(category) {
-//
-// 	var cat_li = document.createElement("li");
-// 	cat_li.classList.add("category");
-// 	cat_li.setAttribute("style", "background-color:" + category.color + ";");
-// 	cat_li.setAttribute("data-id", category.id);
-//
-// 	var cat_title = document.createElement("h3");
-// 	cat_title.textContent = category.name;
-// 	cat_li.appendChild(cat_title);
-//
-// 	var loc_list = document.createElement("ul");
-// 	loc_list.classList.add("locations");
-// 	loc_list.setAttribute("id", 'category_' + category.id + '_loclist');
-// 	cat_li.appendChild(loc_list);
-//
-// 	document.getElementById('categories').appendChild(cat_li);
-// }
 
 function generate_menu(data) {
 	// var categorized = []
@@ -137,22 +119,6 @@ function generate_menu(data) {
 			category.attractions.push(attraction);
 		}
 	}
-	// for (var i=0; i<data.locations.length; i++) {
-		
-		// var category = data.categories.filter(function(cat) {
-		// 	return cat.id == data.locations[i].catid;
-		// })[0];
-		//
-		// var loc_li = document.createElement("li");
-		// loc_li.classList.add("location");
-		// loc_li.textContent = data.locations[i].name;
-		// document.getElementById('category_' + category.id + '_loclist').appendChild(loc_li);
-		//
-		// var coords = L.latLng(data.locations[i].lat, data.locations[i].lon);
-		// var marker = L.marker(coords, { "title": data.locations[i].name, "icon": category.icon, "riseOnHover": true })
-		// marker.on("click", activate_marker)
-		// marker.addTo(map)
-	// }
 }
 
 function main(data) {
