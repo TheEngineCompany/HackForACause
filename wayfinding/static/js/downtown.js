@@ -132,18 +132,7 @@ function generate_menu(data) {
 	}
 }
 
-function error_message() {
-	// really terrible error message
-	var error_msg = "Whups, tell houston we've had a bad problem :/";
-	
-	var error_div = document.createElement("div");
-	error_div.classList.add("error")
-	error_div.innerHTML = error_msg;
-	console.log(error_msg);
-	
-	document.getElementsByTagName('body')[0].appendChild(error_div);
-}
-
+// get JSON data from server
 var request = new XMLHttpRequest();
 request.open('GET', data_url);
 request.onload = function() {
@@ -162,8 +151,7 @@ request.onload = function() {
 		}
 		
 	} else {
-		console.log("error 1")
-		error_message();
+		alert("sorry, something went wrong while fetching data from the server")
 	}
 }
 
