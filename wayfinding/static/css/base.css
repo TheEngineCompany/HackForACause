@@ -55,14 +55,32 @@ html, body {
     color:white;
     font-family: sans-serif;
     transition:transform .3s;
+    overflow: hidden;
+    cursor:pointer;
+}
+.category:hover {
+    box-shadow:0 0 0 1000px rgba(255,255,255,.01) inset;
 }
 .category:last-child {
     margin-bottom:3px;
+}
+.category h3 {
+    position: relative;
+}
+.category h3:before {
+    position: absolute;
+    content:'';
+    width:0;
+    border:10px solid rgba(255,255,255,.1);
+    border-radius: 100%;
+    transform:scale(5);
 }
 
 .locations {
     list-style:none;
     padding:0;
+    overflow:hidden;
+    transition: height .5s;
 }
 .location {
     padding:10px 0;
@@ -100,5 +118,8 @@ html, body {
         padding-top:0;
         height:100%;
         padding-bottom:0;
+        overflow:visible;
+        position:relative;
     }
+    
 }

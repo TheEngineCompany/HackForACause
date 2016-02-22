@@ -47,12 +47,56 @@ function activate_marker(e) {
 	}
 }
 
+function getAutoHeight(elem) {
+	var test_elem = elem.cloneNode(true);
+	test_elem.style.visibility = "hidden";
+	test_elem.style.height = "auto";
+	document.body.appendChild(test_elem);
+
+	var height = getComputedStyle(test_elem)["height"];
+	test_elem.remove();
+	
+	return height;
+}
+
 function Category(name, color, id) {
 	this.name = name;
 	this.color = color;
 	this.id = id;
 	this.icon = null;
 	this.attractions = [];
+	
+		
+	this.collapse = function() {
+		this.collapsed = true;
+		this.attractionList.style.height = 0;
+	}
+	this.expand = function() {
+		this.collapsed = false;
+		this.attractionList.style.height = this.defaultHeight;
+	}
+	
+	this.hideMarkers = function() {
+		var markers = document.querySelectorAll(".marker .category-" + this.id);
+		markers.forEach(function(marker) {
+			marker.style.visibility = "hidden";
+		});
+	}
+	this.showMarkers = function() {
+		var markers = document.querySelectorAll(".marker .category-" + this.id);
+		markers.forEach(function(marker) {
+			marker.style.visibility = "visible";
+		});
+	}
+	
+	this.toggle = function() {
+		if (this.collapsed) {
+			this.expand();
+		}
+		else {
+			this.collapse();
+		}
+	}
 	
 	var catclass = "category-" + this.id;
 	var firstletter = this.name.charAt(0).toUpperCase();
@@ -63,19 +107,23 @@ function Category(name, color, id) {
 	
 	var li = document.createElement("li");
 	li.classList.add("category");
-	li.setAttribute("style", "background-color:" + this.color + ";");
+	li.style.backgroundColor = this.color;
 	li.setAttribute("data-category-id", this.id);
 	
 	var title = document.createElement("h3");
 	title.textContent = this.name;
 	li.appendChild(title);
 	
-	var locations = document.createElement("ul");
-	locations.classList.add("locations");
-	locations.setAttribute("id", 'category_' + this.id + '_loclist');
-	li.appendChild(locations);
-	
+	this.attractionList = document.createElement("ul");
+	this.attractionList.classList.add("locations");
+	//locations.setAttribute("id", 'category_' + this.id + '_loclist');
+	li.appendChild(this.attractionList);
+	console.log(this.collapse)
+	li.addEventListener("click", this.toggle.bind(this));
 	document.getElementById('categories').appendChild(li);
+	// make everything collapsed initially
+	
+	this.collapse();
 	
 }
 
@@ -89,10 +137,9 @@ function Attraction(lat, lon, category, name) {
 	var li = document.createElement("li");
 	li.classList.add("location");
 	li.textContent = this.name;
-	document.getElementById('category_' + category.id + '_loclist').appendChild(li);
+	this.category.attractionList.appendChild(li);
 	
 	this.marker = L.marker(this.coordinates, { "title": this.name, "icon": this.category.icon, "riseOnHover": true })
-	console.log(this.marker)
 	this.marker.addTo(map)
 }
 
@@ -118,6 +165,10 @@ function generate_menu(data) {
 			
 			category.attractions.push(attraction);
 		}
+		
+		// store height of uncollapsed list, needed to workaround css inability to animate between a px value to height:auto
+		category.defaultHeight = getAutoHeight(category.attractionList);
+		
 	}
 }
 
