@@ -64,7 +64,8 @@ function Sidebar() {
 	this.focusedCategory = null;
 	
 	function focusCategory(focusCategory) {
-		console.log(this.focusedCategory, focusCategory)
+		map.closePopup();
+		
 		if (focusCategory === this.focusedCategory) {
 			this.categories.forEach(function(c){
 				c.collapse();
