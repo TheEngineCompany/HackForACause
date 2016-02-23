@@ -35,10 +35,27 @@ html, body {
     font-size:100%;
     font-weight: bold;
 }
+.marker:hover {
+    /* can't use transform, as leaflet uses that for positioning the markers :S */
+    padding:10px;
+    left:-5px;
+    top:-5px;
+}
+
 div.leaflet-popup-content {
     margin:5px;
     min-width:200px;
 }
+
+
+/* hack to fix annoying unclickable region below the popup */
+.locationPopup {
+   pointer-events:none;
+}
+.leaflet-popup-content {
+    pointer-events:auto;
+}
+
 
 .locationPopup .thumbnail {
     width:100%;
