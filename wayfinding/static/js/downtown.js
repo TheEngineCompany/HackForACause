@@ -59,6 +59,41 @@ function getAutoHeight(elem) {
 	return height;
 }
 
+function Sidebar() {
+	this.categories = [];
+	this.focusedCategory = null;
+	
+	function focusCategory(focusCategory) {
+		console.log(this.focusedCategory, focusCategory)
+		if (focusCategory === this.focusedCategory) {
+			this.categories.forEach(function(c){
+				c.collapse();
+				c.showMarkers();
+			});
+			this.focusedCategory = null;
+		}
+		else {
+			this.categories.forEach(function(c) {
+				if (c == focusCategory) {
+					c.expand();
+					c.showMarkers();
+				}
+				else {
+					c.collapse();
+					c.hideMarkers();
+				}
+			});
+			this.focusedCategory = focusCategory;
+		}
+	}
+			
+	this.addCategory = function(category) {
+		category.li.addEventListener("click", focusCategory.bind(this, category));
+		this.categories.push(category);
+	}
+	
+}
+
 function Category(name, color, id) {
 	this.name = name;
 	this.color = color;
@@ -77,14 +112,16 @@ function Category(name, color, id) {
 	}
 	
 	this.hideMarkers = function() {
-		var markers = document.querySelectorAll(".marker .category-" + this.id);
-		markers.forEach(function(marker) {
+		var markers = document.querySelectorAll(".marker.category-" + this.id);
+		
+		Array.prototype.forEach.call(markers, function(marker) {
 			marker.style.visibility = "hidden";
 		});
 	}
 	this.showMarkers = function() {
-		var markers = document.querySelectorAll(".marker .category-" + this.id);
-		markers.forEach(function(marker) {
+		var markers = document.querySelectorAll(".marker.category-" + this.id);
+		
+		Array.prototype.forEach.call(markers, function(marker) {
 			marker.style.visibility = "visible";
 		});
 	}
@@ -92,9 +129,12 @@ function Category(name, color, id) {
 	this.toggle = function() {
 		if (this.collapsed) {
 			this.expand();
+			this.showMarkers();
+			
 		}
 		else {
 			this.collapse();
+			this.hideMarkers();
 		}
 	}
 	
@@ -105,25 +145,40 @@ function Category(name, color, id) {
 		"html": firstletter
 	});
 	
-	var li = document.createElement("li");
-	li.classList.add("category");
-	li.style.backgroundColor = this.color;
-	li.setAttribute("data-category-id", this.id);
+	this.li = document.createElement("li");
+	this.li.classList.add("category");
+	this.li.style.backgroundColor = this.color;
+	this.li.setAttribute("data-category-id", this.id);
 	
 	var title = document.createElement("h3");
 	title.textContent = this.name;
-	li.appendChild(title);
+	this.li.appendChild(title);
 	
 	this.attractionList = document.createElement("ul");
 	this.attractionList.classList.add("locations");
 	//locations.setAttribute("id", 'category_' + this.id + '_loclist');
-	li.appendChild(this.attractionList);
-	console.log(this.collapse)
-	li.addEventListener("click", this.toggle.bind(this));
-	document.getElementById('categories').appendChild(li);
+	this.li.appendChild(this.attractionList);
+	// this.li.addEventListener("click", this.toggle.bind(this));
+	document.getElementById('categories').appendChild(this.li);
 	// make everything collapsed initially
 	
 	this.collapse();
+	
+	function handleMq(mql) {
+		if (mql.matches) {
+			document.body.insertBefore(this.attractionList, document.getElementById('map'));
+			this.attractionList.style.backgroundColor = this.color;
+		}
+		else {
+			this.li.appendChild(this.attractionList);
+		}
+	}
+	
+	var mql = window.matchMedia("(max-width: 700px)");
+	mql.addListener(handleMq.bind(this));
+	
+	// in case mediaquery is already in effect, test it right away
+	handleMq.bind(this, mql)()
 	
 }
 
@@ -147,12 +202,14 @@ function Attraction(lat, lon, category, name) {
 function generate_menu(data) {
 	// var categorized = []
 	console.log(data)
+	var sidebar = new Sidebar();
 	
 	for (var i=0; i<data.categories.length; i++) {
 		
 		var c = data.categories[i];
 		var category = new Category(c.name, c.color, c.id);
-
+		sidebar.addCategory(category);
+		
 		// get all attractions with an id coorisponding to the current category
 		var attractions = data.locations.filter(function(a) { return a.catid == c.id });
 		
@@ -168,8 +225,8 @@ function generate_menu(data) {
 		
 		// store height of uncollapsed list, needed to workaround css inability to animate between a px value to height:auto
 		category.defaultHeight = getAutoHeight(category.attractionList);
-		
 	}
+	
 }
 
 function main(data) {
