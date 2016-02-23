@@ -80,6 +80,8 @@ html, body {
     list-style:none;
     padding:0;
     overflow:hidden;
+    color:white;
+    font-family: sans-serif;
     transition: height .5s;
 }
 .location {
@@ -110,7 +112,7 @@ html, body {
         transform-origin:left top;
         margin:0;
     }
-    .category {
+    .category, .category:last-child {
         transform: rotate(180deg);
         box-sizing:border-box;
         display: inline-block;
@@ -118,8 +120,23 @@ html, body {
         padding-top:0;
         height:100%;
         padding-bottom:0;
-        overflow:visible;
+        overflow:hidden;
         position:relative;
+        margin-bottom:0;
+    }
+    .locations {
+        display:block;
+        position:absolute;
+        z-index: 500;
+        margin:0;
+        bottom:0;
+        left:50px;
+        right:0;
+        max-height:50vh;
+        overflow-y:scroll;
+    }
+    .location:nth-child(even) {
+        background-color:rgba(0,0,0,.1);
     }
     
 }
