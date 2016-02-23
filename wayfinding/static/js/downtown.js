@@ -201,13 +201,22 @@ function Attraction(lat, lon, category, name, details, imageUrl) {
 	thumbnail.classList.add("thumbnail");
 	thumbnail.style.backgroundImage = `url("static/${this.imageUrl}")`;
 	
-	var description = document.createElement("p");
-	description.classList.add("description");
+	var name = document.createElement("h4");
+	name.classList.add("name");
+	name.textContent = this.name;
+	
+	var description = document.createElement("span");
 	description.textContent = this.details;
+	
+	var caption = document.createElement("p");
+	caption.classList.add("description");
+	caption.appendChild(name);
+	caption.appendChild(description);
+	
 	
 	var popup_content = document.createElement("div");
 	popup_content.appendChild(thumbnail);
-	popup_content.appendChild(description);
+	popup_content.appendChild(caption);
 	
 	var markerPopup = L.popup({"closeButton": false, "className": "locationPopup"})
 		.setContent(popup_content)

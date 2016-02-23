@@ -46,6 +46,13 @@ div.leaflet-popup-content {
     background-size:cover;
     border-radius:8px;
 }
+.locationPopup .description {
+    margin:10px 5px;
+}
+.locationPopup .name {
+    margin:0;
+    font-size:12pt;
+}
 
 .myMarker {
     background-color:cadetblue;
