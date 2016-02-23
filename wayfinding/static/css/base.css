@@ -35,6 +35,17 @@ html, body {
     font-size:100%;
     font-weight: bold;
 }
+div.leaflet-popup-content {
+    margin:5px;
+    min-width:200px;
+}
+
+.locationPopup .thumbnail {
+    width:100%;
+    padding-bottom:75%;
+    background-size:cover;
+    border-radius:8px;
+}
 
 .myMarker {
     background-color:cadetblue;

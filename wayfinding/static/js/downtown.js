@@ -182,12 +182,12 @@ function Category(name, color, id) {
 	
 }
 
-function Attraction(lat, lon, category, name) {
+function Attraction(lat, lon, category, name, details, imageUrl) {
 	this.coordinates = new L.LatLng(lat, lon);
 	this.category = category;
 	this.name = name;
-	this.details = null;
-	this.imageUrl = null;
+	this.details = details;
+	this.imageUrl = imageUrl;
 
 	var li = document.createElement("li");
 	li.classList.add("location");
@@ -195,6 +195,24 @@ function Attraction(lat, lon, category, name) {
 	this.category.attractionList.appendChild(li);
 	
 	this.marker = L.marker(this.coordinates, { "title": this.name, "icon": this.category.icon, "riseOnHover": true })
+	
+	var thumbnail = document.createElement("div");
+	thumbnail.classList.add("thumbnail");
+	thumbnail.style.backgroundImage = `url("static/${this.imageUrl}")`;
+	
+	var description = document.createElement("p");
+	description.classList.add("description");
+	description.textContent = this.details;
+	
+	var popup_content = document.createElement("div");
+	popup_content.appendChild(thumbnail);
+	popup_content.appendChild(description);
+	
+	var markerPopup = L.popup({"closeButton": false, "className": "locationPopup"})
+		.setContent(popup_content)
+	
+	this.marker.bindPopup(markerPopup);
+	
 	this.marker.addTo(map)
 }
 
@@ -216,9 +234,7 @@ function generate_menu(data) {
 		for (var n=0; n<attractions.length; n++) {
 			// put attraction info into an Attraction object and put it in our category
 			var a = attractions[n];
-			var attraction = new Attraction(a.lat, a.lon, category, a.name);
-			attraction.details = a.details;
-			attraction.imageUrl = a.image;
+			var attraction = new Attraction(a.lat, a.lon, category, a.name, a.details, a.img);
 			
 			category.attractions.push(attraction);
 		}
