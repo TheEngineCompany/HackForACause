@@ -179,4 +179,10 @@ div.leaflet-popup-content {
         background-color:rgba(0,0,0,.1);
     }
     
+    div.leaflet-popup-content {
+        margin:5px;
+        min-width:auto;
+        max-width:calc(100vw - 70px);
+    }
+    
 }
