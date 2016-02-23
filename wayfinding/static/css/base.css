@@ -34,12 +34,17 @@ html, body {
     padding:5px;
     font-size:100%;
     font-weight: bold;
+    top:0;
+    left:0;
+    transition: padding .2s, top .2s, left .2s;
 }
 .marker:hover {
     /* can't use transform, as leaflet uses that for positioning the markers :S */
     padding:10px;
     left:-5px;
     top:-5px;
+    
+    
 }
 
 div.leaflet-popup-content {

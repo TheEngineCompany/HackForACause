@@ -222,8 +222,13 @@ function Attraction(lat, lon, category, name, details, imageUrl) {
 		.setContent(popup_content)
 	
 	this.marker.bindPopup(markerPopup);
-	
 	this.marker.addTo(map)
+	
+	li.addEventListener("mouseover", function() {
+		console.log(this)
+		map.panTo(this.coordinates);
+		this.marker.openPopup();
+	}.bind(this))
 }
 
 
