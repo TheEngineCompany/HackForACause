@@ -78,6 +78,7 @@ function Sidebar() {
 				if (c == focusCategory) {
 					c.expand();
 					c.showMarkers();
+					c.focusMarkers();
 				}
 				else {
 					c.collapse();
@@ -127,16 +128,9 @@ function Category(name, color, id) {
 		});
 	}
 	
-	this.toggle = function() {
-		if (this.collapsed) {
-			this.expand();
-			this.showMarkers();
-			
-		}
-		else {
-			this.collapse();
-			this.hideMarkers();
-		}
+	this.focusMarkers = function() {
+		var bounds = L.latLngBounds(this.attractions.map(function(o) {return o.coordinates}));
+		map.fitBounds(bounds, {paddingTopLeft: [200, 0]});
 	}
 	
 	var catclass = "category-" + this.id;
@@ -225,8 +219,6 @@ function Attraction(lat, lon, category, name, details, imageUrl) {
 	this.marker.addTo(map)
 	
 	li.addEventListener("mouseover", function() {
-		console.log(this)
-		map.panTo(this.coordinates);
 		this.marker.openPopup();
 	}.bind(this))
 }
