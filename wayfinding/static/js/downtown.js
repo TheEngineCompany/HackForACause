@@ -2,27 +2,24 @@
 
 var data_url = '/dwtn/make_json';
 
-var map = L.map('map').setView([44.0539, -123.0944], 12, {"animate": true});
+var map = L.map('map').setView([44.0509, -123.0944], 12, {"animate": true});
+map.setZoom(16);
 
 // http://a.tile.stamen.com/toner/${z}/${x}/${y}.png
-L.tileLayer("http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", { maxzoom : 18 }).addTo(map)
+L.tileLayer("http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png", { maxzoom : 18 }).addTo(map);
 
 // outline downtown
 // var outline = { "type":"Feature", "geometry": {"type":"Polygon","coordinates":[[[-123.100365600495,44.045516028131],[-123.100365600495,44.0587890681825],[-123.079038340709,44.0587890681825],[-123.079038340709,44.045516028131],[-123.100365600495,44.045516028131]]]}, "properties": { "label": "Eugene Downtown" }}
 // L.geoJson(outline).addTo(map)
 
-var my_coords = null
+var my_coords = null;
+var router = null;
 
 function you_are_here(lat, lon) {
 	if (! my_marker) {
 		var my_marker = L.marker(L.latLng(lat, lon), {"icon": L.divIcon({"html": 'You Are Here', "className": 'marker myMarker' }), }).addTo(map);
 	}
-	else {
-		console.log(my_marker)
-	}
-	my_coords = L.LatLng(lat, lon);
-	console.log(my_coords)
-	console.log(lat, lon)
+	my_coords = L.latLng(lat, lon);
 }
 
 if (navigator.geolocation) {
@@ -39,11 +36,20 @@ if (navigator.geolocation) {
 	var wpid = navigator.geolocation.watchPosition(geo_success, function() {}, geo_options);
 }
 
-function activate_marker(e) {
-	console.log(e, my_coords)
+function show_route(destination) {
 	if (my_coords) {
-		console.log(e)
-		console.log(route, L.route)
+		if (! router) {
+			router = L.Routing.control({
+				waypoints: [
+			        my_coords,
+			        destination
+	    		]
+			}).addTo(map);
+		}
+		else {
+			router.setWaypoints([my_coords, destination]);
+			//router.route();
+		}
 	}
 }
 
@@ -130,7 +136,7 @@ function Category(name, color, id) {
 	
 	this.focusMarkers = function() {
 		var bounds = L.latLngBounds(this.attractions.map(function(o) {return o.coordinates}));
-		map.fitBounds(bounds, {paddingTopLeft: [200, 0]});
+		map.fitBounds(bounds, {padding: [100, 100]});
 	}
 	
 	var catclass = "category-" + this.id;
@@ -151,21 +157,25 @@ function Category(name, color, id) {
 	
 	this.attractionList = document.createElement("ul");
 	this.attractionList.classList.add("locations");
-	//locations.setAttribute("id", 'category_' + this.id + '_loclist');
+
 	this.li.appendChild(this.attractionList);
-	// this.li.addEventListener("click", this.toggle.bind(this));
+
 	document.getElementById('categories').appendChild(this.li);
 	// make everything collapsed initially
 	
 	this.collapse();
 	
 	function handleMq(mql) {
+		// move list of attractions around in the dom to handle layout on narrow screens
+		
 		if (mql.matches) {
 			document.body.insertBefore(this.attractionList, document.getElementById('map'));
 			this.attractionList.style.backgroundColor = this.color;
 		}
 		else {
 			this.li.appendChild(this.attractionList);
+			//recalculate default height, needed if page was loaded with matching mediaquery (< 700px)
+			this.defaultHeight = getAutoHeight(this.attractionList);
 		}
 	}
 	
@@ -189,7 +199,7 @@ function Attraction(lat, lon, category, name, details, imageUrl) {
 	li.textContent = this.name;
 	this.category.attractionList.appendChild(li);
 	
-	this.marker = L.marker(this.coordinates, { "title": this.name, "icon": this.category.icon, "riseOnHover": true })
+	this.marker = L.marker(this.coordinates, { "title": this.name, "icon": this.category.icon, "riseOnHover": true });
 	
 	var thumbnail = document.createElement("div");
 	thumbnail.classList.add("thumbnail");
@@ -212,21 +222,23 @@ function Attraction(lat, lon, category, name, details, imageUrl) {
 	popup_content.appendChild(thumbnail);
 	popup_content.appendChild(caption);
 	
-	var markerPopup = L.popup({"closeButton": false, "className": "locationPopup"})
-		.setContent(popup_content)
+	var markerPopup = L.popup({"closeButton": false, "className": "locationPopup", "autoPan": false}).setContent(popup_content)
 	
 	this.marker.bindPopup(markerPopup);
-	this.marker.addTo(map)
+	this.marker.addTo(map);
 	
 	li.addEventListener("mouseover", function() {
 		this.marker.openPopup();
+	}.bind(this))
+	li.addEventListener("click", function(e) {
+		e.stopPropagation();
+		map.panTo(this.coordinates);
+		show_route(this.coordinates);
 	}.bind(this))
 }
 
 
 function generate_menu(data) {
-	// var categorized = []
-	console.log(data)
 	var sidebar = new Sidebar();
 	
 	for (var i=0; i<data.categories.length; i++) {
@@ -272,7 +284,7 @@ var request = new XMLHttpRequest();
 request.open('GET', data_url);
 request.onload = function() {
 	if (this.status >= 200 && this.status <= 400) {
-		// hurray, we got some datums
+		
 		var data = JSON.parse(this.response);
 		main(data)
 		

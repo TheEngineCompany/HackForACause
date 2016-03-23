@@ -98,9 +98,6 @@ div.leaflet-popup-content {
     overflow: hidden;
     cursor:pointer;
 }
-.category:hover {
-    box-shadow:0 0 0 1000px rgba(255,255,255,.01) inset;
-}
 .category:last-child {
     margin-bottom:3px;
 }
@@ -129,7 +126,7 @@ div.leaflet-popup-content {
     padding-left:20px;
     box-shadow:0 0 0 100px rgba(255,255,255,.0)inset;
     transition: box-shadow .2s;
-    
+    cursor:pointer;
 }
 .location:hover {
     box-shadow:0 0 0 100px rgba(255,255,255,.2)inset;
@@ -174,6 +171,8 @@ div.leaflet-popup-content {
         right:0;
         max-height:35vh;
         overflow-y:scroll;
+        opacity: .95;
+        background-image:linear-gradient(rgba(255,255,255,0) 60%,rgba(255,255,255,.3));
     }
     .location:nth-child(even) {
         background-color:rgba(0,0,0,.1);
@@ -182,7 +181,7 @@ div.leaflet-popup-content {
     div.leaflet-popup-content {
         margin:5px;
         min-width:auto;
-        max-width:calc(100vw - 70px);
+        max-width:calc(50vw - 70px);
     }
     
 }
