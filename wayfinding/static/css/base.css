@@ -2,7 +2,186 @@ body {
     padding: 0;
     margin: 0;
 }
-html, body, #map {
+html, body {
     position: relative;
     height: 100%
+    whitespace:nowrap;
+}
+#map, #sidebar {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+}
+#sidebar {
+    float:left;
+    width: 300px;
+    transition: width .3s;
+    
+    background-color:#efefef;
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+#map {
+    width:calc(100% - 300px);
+    transition: width .3s;
+}
+.marker {
+    border-radius:100%;
+    color:white;
+    line-height:100%;
+    text-align: center;
+    padding:5px;
+    font-size:100%;
+    font-weight: bold;
+    top:0;
+    left:0;
+    transition: padding .2s, top .2s, left .2s;
+}
+.marker:hover {
+    /* can't use transform, as leaflet uses that for positioning the markers :S */
+    padding:10px;
+    left:-5px;
+    top:-5px;
+    
+    
+}
+
+div.leaflet-popup-content {
+    margin:5px;
+    min-width:200px;
+}
+
+
+/* hack to fix annoying unclickable region below the popup */
+.locationPopup {
+   pointer-events:none;
+}
+.leaflet-popup-content {
+    pointer-events:auto;
+}
+
+
+.locationPopup .thumbnail {
+    width:100%;
+    padding-bottom:75%;
+    background-size:cover;
+    border-radius:8px;
+}
+.locationPopup .description {
+    margin:10px 5px;
+}
+.locationPopup .name {
+    margin:0;
+    font-size:12pt;
+}
+
+.myMarker {
+    background-color:cadetblue;
+    color:#444;
+    font-weight: normal;
+}
+
+#categories {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+.category {
+    min-height:20px;
+    padding:15px;
+    margin-top:3px;
+    margin-right:3px;
+    color:white;
+    font-family: sans-serif;
+    transition:transform .3s;
+    overflow: hidden;
+    cursor:pointer;
+}
+.category:last-child {
+    margin-bottom:3px;
+}
+.category h3 {
+    position: relative;
+}
+.category h3:before {
+    position: absolute;
+    content:'';
+    width:0;
+    border:10px solid rgba(255,255,255,.1);
+    border-radius: 100%;
+    transform:scale(5);
+}
+
+.locations {
+    list-style:none;
+    padding:0;
+    overflow:hidden;
+    color:white;
+    font-family: sans-serif;
+    transition: height .5s;
+}
+.location {
+    padding:10px 0;
+    padding-left:20px;
+    box-shadow:0 0 0 100px rgba(255,255,255,.0)inset;
+    transition: box-shadow .2s;
+    cursor:pointer;
+}
+.location:hover {
+    box-shadow:0 0 0 100px rgba(255,255,255,.2)inset;
+}
+
+@media (max-width:700px) {
+    #sidebar {
+        width:50px;
+    }
+    #map {
+       width:calc(100% - 50px);
+    }
+    
+    #categories {
+        width:100vh;
+        white-space:nowrap;
+        height:50px;
+        
+        transform:rotate(90deg) translateY(-50px);
+        transform-origin:left top;
+        margin:0;
+    }
+    .category, .category:last-child {
+        transform: rotate(180deg);
+        box-sizing:border-box;
+        display: inline-block;
+        font-size:9pt;
+        padding-top:0;
+        height:100%;
+        padding-bottom:0;
+        overflow:hidden;
+        position:relative;
+        margin-bottom:0;
+    }
+    .locations {
+        display:block;
+        position:absolute;
+        z-index: 500;
+        margin:0;
+        bottom:0;
+        left:50px;
+        right:0;
+        max-height:35vh;
+        overflow-y:scroll;
+        opacity: .95;
+        background-image:linear-gradient(rgba(255,255,255,0) 60%,rgba(255,255,255,.3));
+    }
+    .location:nth-child(even) {
+        background-color:rgba(0,0,0,.1);
+    }
+    
+    div.leaflet-popup-content {
+        margin:5px;
+        min-width:auto;
+        max-width:calc(50vw - 70px);
+    }
+    
 }
