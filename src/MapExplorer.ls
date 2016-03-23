@@ -19,6 +19,7 @@ package
     import loom.modestmaps.overlays.ImageMarker;
     import loom.platform.LoomKey;
     import loom.platform.Timer;
+    import loom2d.display.Quad;
     import loom2d.events.ScrollWheelEvent;
     import loom2d.math.Rectangle;
     import system.platform.Platform;
@@ -71,7 +72,7 @@ package
         {
             resetViews();
             _listCategories.visible = true;
-            
+
             _map.x = _listCategories.width;
             _map.setSize(_theStage.stageWidth - _listCategories.width, _theStage.stageHeight);
 
@@ -120,26 +121,26 @@ package
 
             var tfTitle = new TextFormat(null, 30, 0x0, true);
             _detailsTitle.graphics.textFormat(tfTitle);
-            _detailsTitle.graphics.drawTextBox(0, 0, 300, dict["name"] as String);
+            _detailsTitle.graphics.drawTextBox(0, 0, _detailsView.width - _detailsView.paddingLeft - _detailsView.paddingRight, dict["name"] as String);
 
             _detailsDesc.y = _detailsTitle.y + _detailsTitle.height + 20;
             var tfDetails = new TextFormat(null, 25, 0x0, true);
             _detailsDesc.graphics.textFormat(tfDetails);
-            _detailsDesc.graphics.drawTextBox(0, 0, 300, dict["details"] as String);
+            _detailsDesc.graphics.drawTextBox(0, 0, _detailsView.width - _detailsView.paddingLeft - _detailsView.paddingRight, dict["details"] as String);
 
             _detailsView.removeChild(_QRImage);
             //_QRImage.dispose(); // Disabled as it crashes when you do it fast.
             _QRImage = QRMaker.generateFromLocation(dict["lat"] as String, dict["lon"] as String,256);
-            _QRImage.x = 320/2 - _detailsView.paddingLeft;
+            _QRImage.x = _detailsView.width/2 - _detailsView.paddingLeft;
             _QRImage.y = _detailsDesc.y + _detailsDesc.height + 20 + _QRImage.height/2;
             _detailsView.addChild(_QRImage);
 
             updateHeader(dict);
 
-            _map.x = 320;
-            _map.setSize(_theStage.stageWidth - 320, _theStage.stageHeight);
+            _map.x = _detailsView.width;
+            _map.setSize(_theStage.stageWidth - _detailsView.width, _theStage.stageHeight);
         }
-        
+
         public var _theStage:Stage = null;
 
         public function MapExplorer(stage:Stage)
@@ -177,8 +178,10 @@ package
             addChild(_listCategories);
 
             _detailsView = new Panel();
-            _detailsView.width = 320;
+            _detailsView.width = 400;
             _detailsView.height = height;
+            const backgroundSkin:Quad = new Quad(100, 100, 0xFFFFFF);
+            _detailsView.backgroundSkin = backgroundSkin;
             _detailsView.headerFactory = function():ImageLoader {
                 _detailsHeader = new ImageLoader();
                 return _detailsHeader;
@@ -228,15 +231,17 @@ package
 
         private function updateHeader(dict:Dictionary.<String, Object>)
         {
-            var tex:Texture = Texture.fromAsset("assets/no-image.jpg");
+            var tex:Texture = null;
 
             if (dict && (dict["img"] as String).length > 0)
             {
-                trace("Image");
                 tex = Texture.fromAsset(dict["img"] as String);
             }
 
-            var ratio = 3 / 4;
+            if (tex)
+                Texture.fromAsset("assets/no-image.jpg");
+
+            var ratio = 9 / 16;
 
             var w0 = tex.width;
             var h0 = tex.height;
@@ -249,7 +254,7 @@ package
 
             _detailsHeader.source = tex;
 
-            _detailsHeader.scaleX = 320 / tex.width;
+            _detailsHeader.scaleX = _detailsView.width / tex.width;
             _detailsHeader.scaleY = _detailsHeader.scaleX;
         }
 
@@ -323,7 +328,7 @@ package
 
             _timer.reset();
         }
-        
+
         private function wheelHandler(e:ScrollWheelEvent):void
         {
             if (e.delta != 0 && _flyer.isFlying) {
